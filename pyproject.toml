@@ -1,0 +1,34 @@
+[project]
+name = "rootfall"
+version = "0.0.0"
+authors = [{ name = "hub33k", email = "hub33k@hub33k.pl" }]
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+
+dependencies = [
+  # essential
+  "loguru>=0.7.3",
+  "json5>=0.12.0",
+  "typer>=0.15.2",
+  "rich>=14.0.0",
+  "questionary>=2.1.0",
+  # utils
+  "pydantic>=2.11.3",
+  "packaging>=24.2",
+]
+
+[tool.uv.sources]
+scripts = { workspace = true }
+
+[tool.uv.workspace]
+members = [
+  "scripts",
+]
+
+[tool.uv]
+dev-dependencies = [
+  # These are added as dev dependencies becuase they should be available
+  # when developing the project.
+  "scripts",
+]

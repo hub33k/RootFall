@@ -1,0 +1,23 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "scripts"
+version = "0.0.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "hub33k", email = "hub33k@yahoo.com" }
+]
+requires-python = ">=3.13"
+dependencies = []
+
+[project.scripts]
+# bin
+# backup = "scripts.bin.backup:main"
+
+# vendor
+# vendor_imgui = "scripts.vendor.vendor_imgui:main"
+# vendor_sdl3 = "scripts.vendor.vendor_sdl3:main"
+# vendor_spdlog = "scripts.vendor.vendor_spdlog:main"

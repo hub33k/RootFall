@@ -1,0 +1,17 @@
+#pragma once
+
+#include <@target@/@target@_export.hpp>
+
+#ifdef @target_id@_STATIC_DEFINE
+  #define @target_id@_TEMPLATE_API
+#else
+  #ifndef @target_id@_TEMPLATE_API
+    #ifdef @target_id@_EXPORTS
+      /* We are building this library */
+      #define @target_id@_TEMPLATE_API __attribute__((visibility("default")))
+    #else
+      /* We are using this library */
+      #define @target_id@_TEMPLATE_API __attribute__((visibility("default")))
+    #endif
+  #endif
+#endif
