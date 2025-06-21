@@ -29,6 +29,18 @@ target_include_directories(${target}
 target_link_libraries(${target}
   PRIVATE
   ${DEFAULT_LIBRARIES}
+
+  RootFallCore
+
+  sdl3webgpu
+
+  dawn
+  entt
+  glm
+  imgui
+  SDL3
+  spdlog
+  stb
 )
 
 # Compile definitions
@@ -64,4 +76,4 @@ target_precompile_headers(${target}
 )
 
 # Setup vendors
-# setup_dawn(${target})
+setup_dawn(${target})

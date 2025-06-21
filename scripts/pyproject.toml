@@ -15,9 +15,9 @@ dependencies = []
 
 [project.scripts]
 # bin
-# backup = "scripts.bin.backup:main"
+backup = "scripts.bin.backup:main"
 
 # vendor
-# vendor_imgui = "scripts.vendor.vendor_imgui:main"
-# vendor_sdl3 = "scripts.vendor.vendor_sdl3:main"
-# vendor_spdlog = "scripts.vendor.vendor_spdlog:main"
+vendor_imgui = "scripts.vendor.vendor_imgui:main"
+vendor_sdl3 = "scripts.vendor.vendor_sdl3:main"
+vendor_spdlog = "scripts.vendor.vendor_spdlog:main"

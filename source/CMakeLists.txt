@@ -6,6 +6,9 @@ configure_file(version.hpp.in ${CMAKE_CURRENT_BINARY_DIR}/include/${META_PROJECT
 
 # Libraries
 set(IDE_FOLDER "")
+add_subdirectory(RootFallCore)
+
+add_subdirectory(sdl3webgpu)
 
 # Executables
 set(IDE_FOLDER "")
