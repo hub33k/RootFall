@@ -2,8 +2,6 @@
 
 #include "RootFall/Platform/Window.hpp"
 
-struct SDL_Window;
-
 namespace hub33k {
 
   class SDLWindow final : public Window {

@@ -33,6 +33,35 @@
 
 // ================================================================
 
+#if HK_BUILD_DEBUG
+  #define ASSETS_DIR PROJECT_ROOT_DIR + std::string("data/")
+#else
+  #define ASSETS_DIR "data/"
+#endif
+
+#define TEXTURES_DIR(fileName) (std::string(ASSETS_DIR) + "textures/" + (fileName))
+#define SHADERS_DIR(fileName) (std::string(ASSETS_DIR) + "shaders/" + (fileName))
+#define FONTS_DIR(fileName) (std::string(ASSETS_DIR) + "fonts/" + (fileName))
+#define SOUNDS_DIR(fileName) (std::string(ASSETS_DIR) + "sounds/" + (fileName))
+
+using f32 = float;
+using f64 = double;
+using u8 = std::uint8_t;
+using u16 = std::uint16_t;
+using u32 = std::uint32_t;
+using u64 = std::uint64_t;
+using i8 = std::int8_t;
+using i16 = std::int16_t;
+using i32 = std::int32_t;
+using i64 = std::int64_t;
+using usize = std::size_t;
+using isize = std::ptrdiff_t;
+// using isize = std::ssize(); // ssize_t
+
+#define PI 3.14159265359f
+
+// ================================================================
+
 #define BIT(x) (1 << x)
 
 #define KB(x) ((unsigned long long)1024 * x)

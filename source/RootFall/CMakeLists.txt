@@ -11,8 +11,11 @@ set(ROOTFALL_SOURCES
 
   ${ROOTFALL_SOURCE_DIR}/Core/Application.cpp
 
+  ${ROOTFALL_SOURCE_DIR}/Renderer/Renderer.cpp
+
   ${ROOTFALL_SOURCE_DIR}/Platform/Window.cpp
   ${ROOTFALL_SOURCE_DIR}/Platform/SDL/SDLWindow.cpp
+  ${ROOTFALL_SOURCE_DIR}/Platform/WebGPU/WebGPUUtils.cpp
 )
 set(ROOTFALL_HEADERS)
 

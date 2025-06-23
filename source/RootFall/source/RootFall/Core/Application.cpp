@@ -10,6 +10,8 @@ namespace hub33k {
 
     m_Window = Window::Create(WindowProps(m_Specification.Name));
     m_Window->SetEventCallback(HK_BIND_EVENT_FN(Application::OnEvent));
+
+    m_Renderer = CreateScope<Renderer>(*m_Window);
   }
 
   Application::~Application() {}
@@ -64,7 +66,8 @@ namespace hub33k {
   }
 
   bool Application::OnWindowResize(const WindowResizeEvent &event) {
-    (void)event;
+    m_Renderer->ConfigureSurface(event.GetWidth(), event.GetHeight(), m_Window->IsVSync());
+
     return false;
   }
 

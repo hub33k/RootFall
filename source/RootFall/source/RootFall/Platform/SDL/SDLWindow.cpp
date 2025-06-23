@@ -1,8 +1,8 @@
 #include "SDLWindow.hpp"
 
+#include "RootFall/Core/Application.hpp"
 #include "RootFallCore/Events/ApplicationEvent.hpp"
 #include "RootFallCore/Events/KeyEvent.hpp"
-#include <SDL3/SDL.h>
 
 namespace hub33k {
 
@@ -56,6 +56,12 @@ namespace hub33k {
   void SDLWindow::OnUpdate() {
     SDL_Event event;
     while (SDL_PollEvent(&event)) {
+      // tmp
+      if (event.type == SDL_EVENT_KEY_DOWN) {
+        if (event.key.key == SDLK_ESCAPE) {
+          Application::Get().Close();
+        }
+      }
     }
   }
 

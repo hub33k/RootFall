@@ -1,6 +1,7 @@
 #pragma once
 
 #include "RootFall/Platform/Window.hpp"
+#include "RootFall/Renderer/Renderer.hpp"
 #include "RootFallCore/Events/ApplicationEvent.hpp"
 #include "RootFallCore/Events/Event.hpp"
 
@@ -53,9 +54,8 @@ namespace hub33k {
     std::mutex m_MainThreadQueueMutex;
 
     Scope<Window> m_Window;
-    // std::unique_ptr<IWindow> m_Window;
-    // std::unique_ptr<IRenderer> m_Renderer;
-    // entt::registry m_Registry;
+    Scope<Renderer> m_Renderer;
+    entt::registry m_Registry;
 
   private:
     void ExecuteMainThreadQueue();
