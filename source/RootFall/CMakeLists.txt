@@ -8,6 +8,11 @@ set(ROOTFALL_SOURCES
   ${ROOTFALL_SOURCE_DIR}/RootFallMain.cpp
   ${ROOTFALL_SOURCE_DIR}/RootFallBuild.cpp
   ${ROOTFALL_SOURCE_DIR}/RootFallPCH.cpp
+
+  ${ROOTFALL_SOURCE_DIR}/Core/Application.cpp
+
+  ${ROOTFALL_SOURCE_DIR}/Platform/Window.cpp
+  ${ROOTFALL_SOURCE_DIR}/Platform/SDL/SDLWindow.cpp
 )
 set(ROOTFALL_HEADERS)
 
