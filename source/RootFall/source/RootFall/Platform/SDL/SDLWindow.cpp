@@ -3,6 +3,7 @@
 #include "RootFall/Core/Application.hpp"
 #include "RootFallCore/Events/ApplicationEvent.hpp"
 #include "RootFallCore/Events/KeyEvent.hpp"
+#include <backends/imgui_impl_sdl3.h>
 
 namespace hub33k {
 
@@ -56,6 +57,8 @@ namespace hub33k {
   void SDLWindow::OnUpdate() {
     SDL_Event event;
     while (SDL_PollEvent(&event)) {
+      ImGui_ImplSDL3_ProcessEvent(&event);
+
       // tmp
       if (event.type == SDL_EVENT_KEY_DOWN) {
         if (event.key.key == SDLK_ESCAPE) {
@@ -80,8 +83,8 @@ namespace hub33k {
       HK_CORE_ASSERT(false, "SDL_Init failed")
     }
 
-    m_Window =
-      SDL_CreateWindow(m_Data.Title.c_str(), m_Data.Width, m_Data.Height, SDL_WINDOW_HIDDEN | SDL_WINDOW_RESIZABLE);
+    constexpr SDL_WindowFlags windowFlags = SDL_WINDOW_HIDDEN | SDL_WINDOW_RESIZABLE | SDL_WINDOW_HIGH_PIXEL_DENSITY;
+    m_Window = SDL_CreateWindow(m_Data.Title.c_str(), m_Data.Width, m_Data.Height, windowFlags);
     HK_CORE_ASSERT(m_Window, "SDL_CreateWindow failed");
     HK_LOG_CORE_INFO("Creating window: \"{0}\" ({1}x{2})", m_Data.Title, m_Data.Width, m_Data.Height);
 

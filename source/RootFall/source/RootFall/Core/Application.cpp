@@ -17,11 +17,17 @@ namespace hub33k {
   Application::~Application() {}
 
   void Application::Run() {
+    // TODO (hub33k): implement the game loop
+    //   https://medium.com/@tglaiel/how-to-make-your-game-run-at-60fps-24c61210fe75
+
     m_Window->Show();
     while (m_IsRunning) {
       ExecuteMainThreadQueue();
 
       if (!m_IsMinimized) {
+        m_Renderer->BeginFrame();
+
+        m_Renderer->EndFrame();
       }
 
       m_Window->OnUpdate();

@@ -45,8 +45,11 @@ namespace hub33k {
     static Application *s_Instance;
 
   private:
+    // TODO (hub33k): add state struct?
     bool m_IsRunning = true;
     bool m_IsMinimized = false;
+    // bool m_IsImGuiEnabled = true;
+    // bool m_IsInitialized = false;
     float m_LastFrameTime = 0.0f;
     ApplicationSpecification m_Specification;
 

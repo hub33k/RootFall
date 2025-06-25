@@ -24,11 +24,16 @@ namespace hub33k {
     wgpu::TextureFormat m_PreferredSurfaceTextureFormat = wgpu::TextureFormat::Undefined;
     wgpu::SurfaceConfiguration m_SurfaceConfiguration;
 
+    wgpu::RenderPassEncoder m_Pass;
+    wgpu::CommandEncoder m_CommandEncoder;
     wgpu::RenderPipeline m_Pipeline;
 
   private:
     void Init();
     void Shutdown();
+
+    void InitImGui();
+    void ShutdownImGui();
 
     void CreatePipeline();
   };

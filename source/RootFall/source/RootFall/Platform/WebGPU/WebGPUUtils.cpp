@@ -23,13 +23,30 @@ WGPUHelpers.h
 namespace hub33k {
 
   wgpu::Instance CreateInstance() {
-    constexpr wgpu::InstanceDescriptor instanceDescriptor = {
+    wgpu::InstanceDescriptor instanceDescriptor = {
       .nextInChain = nullptr,
       .capabilities =
         {
           .timedWaitAnyEnable = true,
         },
     };
+
+    // Make sure the uncaptured error callback is called as soon as an error
+    // occurs rather than at the next call to "wgpuDeviceTick".
+    const wgpu::ChainedStruct *togglesChain = nullptr;
+
+    wgpu::DawnTogglesDescriptor toggles;
+    toggles.nextInChain = nullptr;
+    toggles.sType = wgpu::SType::DawnTogglesDescriptor;
+    toggles.disabledToggleCount = 0;
+    toggles.enabledToggleCount = 1;
+    // https://dawn.googlesource.com/dawn/+/refs/heads/main/src/dawn/native/Toggles.cpp#581
+    const auto toggleName = "enable_immediate_error_handling";
+    toggles.enabledToggles = &toggleName;
+
+    togglesChain = &toggles;
+
+    instanceDescriptor.nextInChain = togglesChain;
 
     wgpu::Instance instance = wgpu::CreateInstance(&instanceDescriptor);
     HK_CORE_ASSERT(instance, "Failed to create wgpu::Instance")
@@ -88,8 +105,8 @@ namespace hub33k {
     deviceDescriptor.nextInChain = nullptr;
     deviceDescriptor.label = "Default Device";
 
-    // deviceDescriptor.requiredFeatures = {};
-    // deviceDescriptor.requiredLimits->maxBindGroups;
+    deviceDescriptor.requiredFeatures = nullptr;
+    deviceDescriptor.requiredLimits = nullptr; // Default limits are minimal limits
 
     deviceDescriptor.SetDeviceLostCallback(
       wgpu::CallbackMode::AllowSpontaneous,
@@ -198,7 +215,7 @@ namespace hub33k {
   }
 
   wgpu::SurfaceConfiguration CreateSurfaceConfiguration(
-    int width, int height, bool vsync, const wgpu::Surface &surface, const wgpu::Adapter &adapter,
+    const int width, const int height, const bool vsync, const wgpu::Surface &surface, const wgpu::Adapter &adapter,
     const wgpu::Device &device, wgpu::TextureFormat &preferredSurfaceTextureFormat
   ) {
     wgpu::SurfaceCapabilities capabilities;
