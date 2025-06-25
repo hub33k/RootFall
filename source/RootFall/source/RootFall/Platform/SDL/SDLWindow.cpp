@@ -83,7 +83,8 @@ namespace hub33k {
       HK_CORE_ASSERT(false, "SDL_Init failed")
     }
 
-    constexpr SDL_WindowFlags windowFlags = SDL_WINDOW_HIDDEN | SDL_WINDOW_RESIZABLE | SDL_WINDOW_HIGH_PIXEL_DENSITY;
+    constexpr SDL_WindowFlags windowFlags = SDL_WINDOW_HIDDEN | SDL_WINDOW_RESIZABLE;
+    // TODO (hub33k): fix for mac - SDL_WINDOW_HIGH_PIXEL_DENSITY;
     m_Window = SDL_CreateWindow(m_Data.Title.c_str(), m_Data.Width, m_Data.Height, windowFlags);
     HK_CORE_ASSERT(m_Window, "SDL_CreateWindow failed");
     HK_LOG_CORE_INFO("Creating window: \"{0}\" ({1}x{2})", m_Data.Title, m_Data.Width, m_Data.Height);
