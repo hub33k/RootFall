@@ -1,0 +1,56 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "hide": true,
+      "label": "build tests",
+      "type": "cmake",
+      "command": "build",
+      "group": "build",
+      "targets": ["SoftwareRenderer_tests"],
+      "presentation": {
+        // "reveal": "never", // "silent" or "never"
+        // "focus": false,
+        // "panel": "shared",
+
+        "echo": false,
+        "reveal": "never",
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": false,
+        "clear": true
+      }
+    },
+    {
+      "label": "build PrototypeCpp_tests",
+      "hide": true,
+      "type": "shell",
+      "command": "cmake --build ./build-debug --target PrototypeCpp_tests",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    },
+    {
+      "label": "PrototypeCpp_tests",
+      "type": "process",
+      "command": "${workspaceFolder}/build-debug/bin/PrototypeCpp_tests",
+      "dependsOn": [
+        //
+        "build PrototypeCpp_tests"
+      ],
+      "args": [
+        "--gtest_filter=HelloTest.BasicAssertions"
+        // "--gtest_list_tests"
+      ],
+      "group": {
+        "kind": "test",
+        "isDefault": true
+      },
+      "presentation": {
+        "showReuseMessage": false,
+        "clear": true
+      }
+    }
+  ]
+}

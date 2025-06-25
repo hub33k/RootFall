@@ -1,0 +1,115 @@
+{
+  // Editor
+  // ================================================================
+
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.minimap.autohide": true,
+  "editor.inlayHints.enabled": "off",
+
+  // Workbench
+  // ================================================================
+
+  // https://www.linkedin.com/feed/update/urn:li:activity:7176578334808502273/
+  "workbench.editor.customLabels.enabled": true,
+  "workbench.editor.customLabels.patterns": {
+    "**/__init__.py": "${dirname}.init.py"
+
+    // index.ts
+    // "**/index.ts": "${dirname}.index.ts",
+    // Svelte routes
+    // "**/routes/**/+page.svelte": "${dirname(1)}/${dirname}",
+    // "**/routes/**/+page.server.ts": "/${dirname} [server]",
+    // Next.js app routes
+    // "**/app/**/route.ts": "${dirname}.route.${extname}",
+    // "**/app/**/page.tsx": "${dirname}.${extname}",
+    // "**/app/**/layout.tsx": "${dirname}/layout.${extname}"
+  },
+
+  // Misc
+  // ================================================================
+
+  "terminal.integrated.fontSize": 18,
+
+  "search.exclude": {
+    "**/.git": true,
+    "**/node_modules": true,
+    "**/bower_components": true,
+    "**/tmp": true,
+    "hub33k-notes": true,
+    ".next": true
+  },
+
+  // Languages
+  // ================================================================
+
+  // C/C++
+  "clangd.path": "clangd",
+  "clangd.arguments": [
+    //
+    "-header-insertion=never",
+    "-j=1"
+  ],
+
+  "cmake.options.statusBarVisibility": "compact",
+  "cmake.configureOnOpen": false,
+  "cmake.copyCompileCommands": "${workspaceFolder}/compile_commands.json", // for clangd on mac
+  "cmake.pinnedCommands": [
+    "workbench.action.tasks.configureTaskRunner",
+    "workbench.action.tasks.runTask"
+  ],
+
+  "C_Cpp.intelliSenseEngine": "disabled", // Using clangd instead
+  "C_Cpp.errorSquiggles": "enabled",
+
+  // "C_Cpp.inlayHints.autoDeclarationTypes.enabled": false,
+  // "C_Cpp.inlayHints.autoDeclarationTypes.showOnLeft": false,
+  // "C_Cpp.inlayHints.parameterNames.enabled": false,
+  // "C_Cpp.inlayHints.referenceOperator.enabled": false,
+  // "C_Cpp.inlayHints.parameterNames.hideLeadingUnderscores": true,
+  // "C_Cpp.inlayHints.parameterNames.suppressWhenArgumentContainsName": true,
+
+  "C_Cpp.default.browse.limitSymbolsToIncludedHeaders": true,
+  "C_Cpp.files.exclude": {
+    "**/.vscode": true
+  },
+
+  "[cpp][c][h][hpp]": {
+    "editor.defaultFormatter": "xaver.clang-format"
+  },
+
+  // C++ TestMate
+  // "testMate.cpp.test.executables": "build-debug/bin/*_tests.exe",
+  // https://github.com/matepek/vscode-catch2-test-adapter/issues/116
+  // https://github.com/matepek/vscode-catch2-test-adapter/issues/127
+  "testMate.cpp.test.advancedExecutables": [
+    {
+      "pattern": "build-debug/bin/SoftwareRenderer/SoftwareRenderer_testsd",
+      "dependsOn": [
+        // "build PrototypeCpp_tests",
+        // "build-debug/bin/PrototypeCpp_tests.pdb"
+      ],
+      "runTask": {
+        "before": [
+          "build tests"
+          // "build PrototypeCpp_tests"
+        ]
+      }
+    }
+  ],
+
+  // Python
+  "[python]": {
+    "editor.defaultFormatter": "charliermarsh.ruff"
+  },
+
+  // Extensions
+  // ================================================================
+
+  "prettier.configPath": ".prettierrc.cjs",
+
+  "codeium.enableCodeLens": false,
+  "codeium.enableConfig": {
+    "wgsl": true
+  }
+}
