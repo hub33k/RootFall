@@ -22,73 +22,73 @@ namespace hub33k {
     m_Surface.GetCurrentTexture(&surfaceTexture);
 
     // Create a view for this surface texture
-    wgpu::TextureViewDescriptor viewDescriptor;
-    viewDescriptor.nextInChain = nullptr;
-    viewDescriptor.label = "Surface texture view";
-    viewDescriptor.format = m_PreferredSurfaceTextureFormat; // surfaceTexture.texture.GetFormat()
-    viewDescriptor.dimension = wgpu::TextureViewDimension::e2D;
-    viewDescriptor.baseMipLevel = 0;
-    viewDescriptor.mipLevelCount = 1;
-    viewDescriptor.baseArrayLayer = 0;
-    viewDescriptor.arrayLayerCount = 1;
-    viewDescriptor.aspect = wgpu::TextureAspect::All;
-    wgpu::TextureView targetView = surfaceTexture.texture.CreateView(&viewDescriptor);
+    const wgpu::TextureViewDescriptor viewDescriptor{
+      .nextInChain = nullptr,
+      .label = "Surface texture view",
+      .format = m_PreferredSurfaceTextureFormat, // surfaceTexture.texture.GetFormat()
+      .dimension = wgpu::TextureViewDimension::e2D,
+      .baseMipLevel = 0,
+      .mipLevelCount = 1,
+      .baseArrayLayer = 0,
+      .arrayLayerCount = 1,
+      .aspect = wgpu::TextureAspect::All,
+    };
+
+    const wgpu::TextureView targetView = surfaceTexture.texture.CreateView(&viewDescriptor);
 
     // Create a command encoder for the draw call
-    wgpu::CommandEncoderDescriptor encoderDesc = {};
-    encoderDesc.nextInChain = nullptr;
-    encoderDesc.label = "My command encoder";
+    constexpr wgpu::CommandEncoderDescriptor encoderDesc = {
+      .nextInChain = nullptr,
+      .label = "My command encoder",
+    };
     m_CommandEncoder = m_Device.CreateCommandEncoder(&encoderDesc);
 
-    // Create the render pass that clears the screen with our color
-    wgpu::RenderPassDescriptor renderPassDesc = {};
-    renderPassDesc.nextInChain = nullptr;
-
     // The attachment part of the render pass descriptor describes the target texture of the pass
-    wgpu::RenderPassColorAttachment renderPassColorAttachment = {};
-    renderPassColorAttachment.view = targetView;
-    renderPassColorAttachment.resolveTarget = nullptr;
-    renderPassColorAttachment.loadOp = wgpu::LoadOp::Clear;
-    renderPassColorAttachment.storeOp = wgpu::StoreOp::Store;
-    renderPassColorAttachment.clearValue = wgpu::Color{0.1, 0.1, 0.1, 1.0};
+    const wgpu::RenderPassColorAttachment renderPassColorAttachment = {
+      .view = targetView,
+      .resolveTarget = nullptr,
+      .loadOp = wgpu::LoadOp::Clear,
+      .storeOp = wgpu::StoreOp::Store,
+      .clearValue = wgpu::Color{0.1, 0.1, 0.1, 1.0},
+    };
 
-    renderPassDesc.colorAttachmentCount = 1;
-    renderPassDesc.colorAttachments = &renderPassColorAttachment;
-    renderPassDesc.depthStencilAttachment = nullptr;
-    renderPassDesc.timestampWrites = nullptr;
+    // Create the render pass that clears the screen with our color
+    const wgpu::RenderPassDescriptor renderPassDesc = {
+      .nextInChain = nullptr,
+      .colorAttachmentCount = 1,
+      .colorAttachments = &renderPassColorAttachment,
+      .depthStencilAttachment = nullptr,
+      .timestampWrites = nullptr,
+    };
 
     // Create the render pass and end it immediately (we only clear the screen but do not draw anything)
     m_Pass = m_CommandEncoder.BeginRenderPass(&renderPassDesc);
 
-    // render here
-
     ImGui_ImplWGPU_NewFrame();
     ImGui_ImplSDL3_NewFrame();
     ImGui::NewFrame();
-
-    // ImGui::ShowDemoWindow();
-
-    ImGui::Begin("Test");
-    ImGui::End();
-
-    ImGui::Render();
   }
 
   void Renderer::EndFrame() {
+    ImGui::Render();
     ImGui_ImplWGPU_RenderDrawData(ImGui::GetDrawData(), m_Pass.Get());
     m_Pass.End();
 
     // Finally encode and submit the render pass
-    wgpu::CommandBufferDescriptor cmdBufferDescriptor = {};
-    cmdBufferDescriptor.nextInChain = nullptr;
-    cmdBufferDescriptor.label = "Command buffer";
+    constexpr wgpu::CommandBufferDescriptor cmdBufferDescriptor = {
+      .nextInChain = nullptr,
+      .label = "Command buffer",
+    };
     const wgpu::CommandBuffer command = m_CommandEncoder.Finish(&cmdBufferDescriptor);
 
     m_Queue.Submit(1, &command);
 
-    m_Surface.Present();
     m_Device.Tick();
     m_Instance.ProcessEvents();
+  }
+
+  void Renderer::Display() {
+    m_Surface.Present();
   }
 
   void Renderer::ConfigureSurface(const int width, const int height, const bool vsync) {

@@ -38,7 +38,7 @@ namespace hub33k {
 
     // ================================================================
 
-    Window &GetWindow() { return *m_Window; }
+    Window &GetWindow() const { return *m_Window; }
     const ApplicationSpecification &GetSpecification() const { return m_Specification; }
 
   private:

@@ -1,5 +1,8 @@
 #include "Application.hpp"
 
+#include <backends/imgui_impl_sdl3.h>
+#include <imgui.h>
+
 namespace hub33k {
 
   Application *Application::s_Instance = nullptr;
@@ -27,10 +30,19 @@ namespace hub33k {
       if (!m_IsMinimized) {
         m_Renderer->BeginFrame();
 
+        // ImGui::ShowDemoWindow();
+
+        ImGui::Begin("App");
+        ImGui::Text(
+          "Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate
+        );
+        ImGui::End();
+
         m_Renderer->EndFrame();
       }
 
       m_Window->OnUpdate();
+      m_Renderer->Display();
     }
   }
 
@@ -72,7 +84,9 @@ namespace hub33k {
   }
 
   bool Application::OnWindowResize(const WindowResizeEvent &event) {
-    m_Renderer->ConfigureSurface(event.GetWidth(), event.GetHeight(), m_Window->IsVSync());
+    m_Renderer->ConfigureSurface(
+      static_cast<int>(event.GetWidth()), static_cast<int>(event.GetHeight()), m_Window->IsVSync()
+    );
 
     return false;
   }

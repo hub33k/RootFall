@@ -12,6 +12,9 @@ namespace hub33k {
     void BeginFrame();
     void EndFrame();
 
+    /// Swap buffers.
+    void Display();
+
     void ConfigureSurface(int width, int height, bool vsync = true);
 
   private:
