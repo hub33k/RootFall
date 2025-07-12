@@ -34,6 +34,8 @@
 #include "RootFallCore/Core/Base.hpp"
 #include "RootFallCore/Debug/Instrumentor.hpp"
 
+#include "Pong/Core/Base.hpp"
+
 // Platform specific
 // ================================================================
 

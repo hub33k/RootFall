@@ -11,6 +11,8 @@ set(PONG_SOURCES
 
   ${PONG_SOURCE_DIR}/Core/Application.cpp
 
+  ${PONG_SOURCE_DIR}/Renderer/Renderer.cpp
+
   ${PONG_SOURCE_DIR}/Platform/WebGPU/WebGPUUtils.cpp
 )
 set(PONG_HEADERS)

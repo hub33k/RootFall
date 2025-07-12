@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Pong/Renderer/Renderer.hpp"
 #include "RootFallCore/Events/ApplicationEvent.hpp"
 #include "RootFallCore/Events/Event.hpp"
 
@@ -21,12 +22,31 @@ namespace hub33k {
     ApplicationCommandLineArgs CommandLineArgs;
   };
 
+  using EventCallbackFn = std::function<void(Event &)>;
+
+  struct WindowData {
+    std::string Title;
+    uint32_t Width, Height;
+    bool VSync;
+
+    EventCallbackFn EventCallback;
+  };
+
+  struct WindowProps {
+    std::string Title;
+    uint32_t Width;
+    uint32_t Height;
+
+    explicit WindowProps(const std::string &title = "Pong", const uint32_t width = 1280, const uint32_t height = 720)
+      : Title(title), Width(width), Height(height) {}
+  };
+
   class Application final {
   public:
     static Application &Get() { return *s_Instance; }
 
   public:
-    Application(const ApplicationSpecification &specification);
+    explicit Application(const ApplicationSpecification &specification);
     ~Application();
 
     void Run();
@@ -34,10 +54,13 @@ namespace hub33k {
     void Close();
     void SubmitToMainThread(const std::function<void()> &function);
 
+    void SetEventCallback(const EventCallbackFn &callback) { m_WindowData.EventCallback = callback; }
+
     // ================================================================
 
-    // Window &GetWindow() const { return *m_Window; }
-    const ApplicationSpecification &GetSpecification() const { return m_Specification; }
+    [[nodiscard]] WindowData GetWindowData() const { return m_WindowData; }
+    [[nodiscard]] SDL_Window &GetWindow() const { return *m_Window; }
+    [[nodiscard]] const ApplicationSpecification &GetSpecification() const { return m_Specification; }
 
   private:
     static Application *s_Instance;
@@ -54,10 +77,16 @@ namespace hub33k {
     std::vector<std::function<void()>> m_MainThreadQueue;
     std::mutex m_MainThreadQueueMutex;
 
-    // Scope<Window> m_Window;
+    WindowData m_WindowData;
+    SDL_Window *m_Window = nullptr;
+
+    Scope<Renderer> m_Renderer;
+
     entt::registry m_Registry;
 
   private:
+    void Init();
+    void Shutdown();
     void ExecuteMainThreadQueue();
 
     // Events
