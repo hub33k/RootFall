@@ -14,4 +14,4 @@ add_subdirectory(sdl3webgpu)
 set(IDE_FOLDER "")
 
 # main game executable
-add_subdirectory(RootFall)
+# add_subdirectory(RootFall)
