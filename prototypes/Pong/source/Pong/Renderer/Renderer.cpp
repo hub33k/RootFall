@@ -59,7 +59,7 @@ namespace hub33k {
       .timestampWrites = nullptr,
     };
 
-    // Create the render pass and end it immediately (we only clear the screen but do not draw anything)
+    // Create the render pass
     m_Pass = m_CommandEncoder.BeginRenderPass(&renderPassDesc);
 
     ImGui_ImplWGPU_NewFrame();
@@ -140,9 +140,9 @@ namespace hub33k {
 #if HK_PLATFORM_IS(WINDOWS)
     ImGui_ImplSDL3_InitForD3D(&m_Window);
 #elif HK_PLATFORM_IS(MACOS)
-    ImGui_ImplSDL3_InitForMetal(window);
+    ImGui_ImplSDL3_InitForMetal(&m_Window);
 #else
-    ImGui_ImplSDL3_InitForVulkan(window);
+    ImGui_ImplSDL3_InitForVulkan(&m_Window);
 #endif
 
     ImGui_ImplWGPU_InitInfo init_info = {};

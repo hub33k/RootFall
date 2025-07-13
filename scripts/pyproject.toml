@@ -16,6 +16,7 @@ dependencies = []
 [project.scripts]
 # bin
 backup = "scripts.bin.backup:main"
+lint = "scripts.bin.lint:main"
 
 # vendor
 vendor_imgui = "scripts.vendor.vendor_imgui:main"

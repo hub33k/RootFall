@@ -26,7 +26,7 @@ namespace hub33k {
 
   struct WindowData {
     std::string Title;
-    uint32_t Width, Height;
+    int Width, Height;
     bool VSync;
 
     EventCallbackFn EventCallback;
@@ -34,10 +34,10 @@ namespace hub33k {
 
   struct WindowProps {
     std::string Title;
-    uint32_t Width;
-    uint32_t Height;
+    int Width;
+    int Height;
 
-    explicit WindowProps(const std::string &title = "Pong", const uint32_t width = 1280, const uint32_t height = 720)
+    explicit WindowProps(const std::string &title = "Pong", const int width = 1280, const int height = 720)
       : Title(title), Width(width), Height(height) {}
   };
 
@@ -62,11 +62,18 @@ namespace hub33k {
     [[nodiscard]] SDL_Window &GetWindow() const { return *m_Window; }
     [[nodiscard]] const ApplicationSpecification &GetSpecification() const { return m_Specification; }
 
+    void SetVSync(const bool enabled) { m_WindowData.VSync = enabled; }
+    [[nodiscard]] bool IsVSync() const { return m_WindowData.VSync; }
+
+    int GetWindowWidth() const { return m_WindowData.Width; }
+    int GetWindowHeight() const { return m_WindowData.Height; }
+
   private:
     static Application *s_Instance;
 
   private:
     // TODO (hub33k): add state struct?
+
     bool m_IsRunning = true;
     bool m_IsMinimized = false;
     // bool m_IsImGuiEnabled = true;
