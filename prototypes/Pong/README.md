@@ -7,3 +7,5 @@
 - [ ] emscripten
 - [ ] documentation
 - [ ] tests
+- [ ] lua scripting
+- [ ] setup proper vendors

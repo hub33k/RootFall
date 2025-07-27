@@ -10,6 +10,10 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/bin/Pong)
 
 add_executable(${target}
   # MACOSX_BUNDLE
+  ${PONG_SOURCE_DIR}/PongBuild.cpp
+  ${PONG_SOURCE_DIR}/PongMain.cpp
+  ${PONG_SOURCE_DIR}/PongPCH.cpp
+
   ${PONG_SOURCES} ${PONG_HEADERS}
 )
 
