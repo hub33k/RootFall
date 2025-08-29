@@ -8,7 +8,7 @@ version = "0.0.0"
 description = "Add your description here"
 readme = "README.md"
 authors = [
-    { name = "hub33k", email = "hub33k@yahoo.com" }
+  { name = "hub33k", email = "hub33k@yahoo.com" }
 ]
 requires-python = ">=3.13"
 dependencies = []
@@ -20,6 +20,6 @@ lint = "scripts.bin.lint:main"
 
 # vendor
 vendor_dawn = "scripts.vendor.vendor_dawn:main"
+vendor_sdl3 = "scripts.vendor.vendor_sdl3:main"
 # vendor_imgui = "scripts.vendor.vendor_imgui:main"
-# vendor_sdl3 = "scripts.vendor.vendor_sdl3:main"
 # vendor_spdlog = "scripts.vendor.vendor_spdlog:main"

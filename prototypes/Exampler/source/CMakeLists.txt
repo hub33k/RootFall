@@ -2,10 +2,8 @@ set(target ${EXAMPLER})
 set(target_dir ${EXAMPLER_DIR}/source)
 set(target_source_dir ${EXAMPLER_SOURCE_DIR})
 set(target_headers_dir ${EXAMPLER_HEADERS_DIR})
-
-message(${target_dir})
-message(${EXAMPLER_SOURCE_DIR})
-message(${EXAMPLER_HEADERS_DIR})
+set(target_sources ${EXAMPLER_SOURCES})
+set(target_headers ${EXAMPLER_HEADERS})
 
 message(STATUS "[Executable] ${target}")
 
@@ -16,11 +14,11 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/bin/${target})
 
 add_executable(${target}
   # MACOSX_BUNDLE
-  ${EXAMPLER_SOURCE_DIR}/${target}Build.cpp
-  ${EXAMPLER_SOURCE_DIR}/${target}Main.cpp
-  ${EXAMPLER_SOURCE_DIR}/${target}PCH.cpp
+  ${target_source_dir}/${target}Build.cpp
+  ${target_source_dir}/${target}Main.cpp
+  ${target_source_dir}/${target}PCH.cpp
 
-  ${EXAMPLER_SOURCES} ${EXAMPLER_HEADERS}
+  ${target_sources} ${target_headers}
 )
 
 # Project options
@@ -44,6 +42,9 @@ target_include_directories(${target}
 target_link_libraries(${target}
   PRIVATE
   ${DEFAULT_LIBRARIES}
+
+  SDL3::SDL3-static
+  glm
 )
 
 # Compile definitions
@@ -70,7 +71,7 @@ target_link_options(${target}
 # Precompiled headers - PCH
 target_precompile_headers(${target}
   PRIVATE
-  ${EXAMPLER_SOURCE_DIR}/${target}PCH.hpp
+  ${target_source_dir}/${target}PCH.hpp
 
   # https://discourse.cmake.org/t/leveraging-precompiled-headers/10137
   # https://cmake.org/cmake/help/latest/command/target_precompile_headers.html#reusing-precompile-headers
