@@ -51,8 +51,8 @@
       "description": "Common macos config",
       "hidden": true,
       "cacheVariables": {
-        "CMAKE_C_COMPILER": "clang",
-        "CMAKE_CXX_COMPILER": "clang++"
+        "CMAKE_C_COMPILER": "/opt/homebrew/Cellar/llvm@20/20.1.8/bin/clang",
+        "CMAKE_CXX_COMPILER": "/opt/homebrew/Cellar/llvm@20/20.1.8/bin/clang++"
       }
     },
 

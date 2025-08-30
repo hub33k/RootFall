@@ -43,8 +43,14 @@ target_link_libraries(${target}
   PRIVATE
   ${DEFAULT_LIBRARIES}
 
-  SDL3::SDL3-static
+  # TODO (hub33k): handle vendor compiler warnings (interface?)
+  # dawn
+  # entt
   glm
+  # imgui
+  SDL3::SDL3-static
+  spdlog
+  # stb
 )
 
 # Compile definitions

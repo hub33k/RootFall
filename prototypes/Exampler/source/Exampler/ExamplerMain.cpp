@@ -1,5 +1,8 @@
+#define _LIBCPP_AVAILABILITY_HAS_HASH_MEMORY _LIBCPP_INTRODUCED_IN_LLVM_21
+
 #include <SDL3/SDL.h>
 #include <glm/glm.hpp>
+#include <spdlog/spdlog.h>
 
 int main(const int argc, char *argv[]) {
   (void)argc;
@@ -9,6 +12,8 @@ int main(const int argc, char *argv[]) {
   constexpr auto v2 = glm::vec3(4.0f, 5.0f, 6.0f);
   glm::vec3 v3 = v + v2;
   std::println("vector3: {:.2f}", v3.x);
+
+  spdlog::info("Welcome to spdlog!");
 
   constexpr int compiled = SDL_VERSION;
   const int linked = SDL_GetVersion();

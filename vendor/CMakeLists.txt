@@ -11,6 +11,9 @@
 # include(cmake/spdlog.cmake)
 # include(cmake/stb.cmake)
 
+add_subdirectory(entt)
 add_subdirectory(glm)
 add_subdirectory(imgui)
 add_subdirectory(sdl3)
+add_subdirectory(spdlog)
+add_subdirectory(stb)
