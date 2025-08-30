@@ -44,8 +44,8 @@ target_link_libraries(${target}
   ${DEFAULT_LIBRARIES}
 
   # TODO (hub33k): handle vendor compiler warnings (interface?)
-  # dawn
-  # entt
+  dawn
+  EnTT
   glm
   # imgui
   SDL3::SDL3-static
@@ -86,4 +86,4 @@ target_precompile_headers(${target}
 )
 
 # Setup vendors
-# setup_dawn(${target})
+setup_dawn(${target})

@@ -30,6 +30,11 @@ target_compile_definitions(${dawn_target}
 if(WIN32)
   target_link_libraries(${dawn_target}
     INTERFACE
+    # windows
+    # d3d11.lib
+    # d3d12.lib
+    # dxguid.lib
+
     ${dawn_install_dir}/lib/webgpu_dawn.lib
 
     # glfw
@@ -57,11 +62,11 @@ if(APPLE)
   )
 endif()
 
-configure_file(
-  "${dawn_vendor_dir}/code/include/webgpu/webgpu_glfw.h"
-  "${dawn_install_dir}/include/webgpu"
-  COPYONLY
-)
+# configure_file(
+#   "${dawn_vendor_dir}/code/include/webgpu/webgpu_glfw.h"
+#   "${dawn_install_dir}/include/webgpu"
+#   COPYONLY
+# )
 
 function(setup_dawn target)
   set(dawn_target dawn)
