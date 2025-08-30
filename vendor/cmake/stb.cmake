@@ -1,5 +1,5 @@
 set(stb_target stb)
-set(stb_vendor_dir ${DIR_ROOT}/build-vendor/stb)
+set(stb_vendor_dir ${DIR_ROOT}/vendor/stb)
 set(stb_code_dir ${stb_vendor_dir}/code)
 
 message(STATUS "[vendor] Using STB")

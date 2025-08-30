@@ -35,6 +35,7 @@ DIR_INSTALL = Path(DIR_SRC, "install")
 
 GIT_SOURCE_URL = "https://dawn.googlesource.com/dawn"
 GIT_HASH = "d33f9062cd0da6faf2aca3235a21658bde241b84"  # Move VkCommandPool recycling to a SerialTask
+# https://dawn.googlesource.com/dawn/+/d33f9062cd0da6faf2aca3235a21658bde241b84
 
 # remove PROTOBUF_CONSTINIT from third_party/protobuf/src/google/protobuf/port.cc - line 104
 # TODO (hub33k): set build/release folders

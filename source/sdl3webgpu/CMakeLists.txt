@@ -5,7 +5,7 @@
 # The sdl3webgpu target
 add_library(sdl3webgpu STATIC source/sdl3webgpu.c)
 target_include_directories(sdl3webgpu PUBLIC source)
-target_link_libraries(sdl3webgpu PUBLIC SDL3 dawn)
+target_link_libraries(sdl3webgpu PUBLIC SDL3::SDL3-static dawn)
 
 if (APPLE)
     target_compile_options(sdl3webgpu PRIVATE -x objective-c)

@@ -6,10 +6,10 @@
 include(cmake/dawn.cmake)
 # include(cmake/entt.cmake)
 # include(cmake/glm.cmake)
-# include(cmake/imgui.cmake)
+include(cmake/imgui.cmake)
 # include(cmake/sdl.cmake)
 # include(cmake/spdlog.cmake)
-# include(cmake/stb.cmake)
+include(cmake/stb.cmake)
 
 add_subdirectory(entt)
 add_subdirectory(glm)

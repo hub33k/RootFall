@@ -43,14 +43,18 @@ target_link_libraries(${target}
   PRIVATE
   ${DEFAULT_LIBRARIES}
 
+  RootFallCore
+
+  sdl3webgpu
+
   # TODO (hub33k): handle vendor compiler warnings (interface?)
   dawn
   EnTT
   glm
-  # imgui
+  imgui
   SDL3::SDL3-static
   spdlog
-  # stb
+  stb
 )
 
 # Compile definitions

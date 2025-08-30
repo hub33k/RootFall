@@ -1,5 +1,5 @@
 set(imgui_target imgui)
-set(imgui_vendor_dir ${DIR_ROOT}/build-vendor/imgui)
+set(imgui_vendor_dir ${DIR_ROOT}/vendor/imgui)
 set(imgui_code_dir ${imgui_vendor_dir}/code)
 
 message(STATUS "[vendor] Using imgui")

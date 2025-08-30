@@ -21,6 +21,14 @@ namespace hub33k {
     wgpu::SurfaceTexture surfaceTexture;
     m_Surface.GetCurrentTexture(&surfaceTexture);
 
+    if (!surfaceTexture.texture) {
+      return;
+    }
+
+    // if (m_SurfaceTexture.status != wgpu::SurfaceGetCurrentTextureStatus::Success) {
+    //   return; // skip frame
+    // }
+
     // Create a view for this surface texture
     const wgpu::TextureViewDescriptor viewDescriptor{
       .nextInChain = nullptr,
@@ -70,6 +78,10 @@ namespace hub33k {
   }
 
   void Renderer::EndFrame() {
+    // if (m_SurfaceTexture.status != wgpu::SurfaceGetCurrentTextureStatus::Success) {
+    //   return; // skip if invalid
+    // }
+
     ImGui::Render();
     ImGui_ImplWGPU_RenderDrawData(ImGui::GetDrawData(), m_Pass.Get());
     m_Pass.End();
@@ -83,12 +95,15 @@ namespace hub33k {
 
     m_Queue.Submit(1, &command);
 
+    Display();
+
     m_Device.Tick();
     m_Instance.ProcessEvents();
   }
 
   void Renderer::Display() {
-    m_Surface.Present();
+    wgpu::Status presentStatus = m_Surface.Present();
+    HK_ASSERT(presentStatus == wgpu::Status::Success)
   }
 
   void Renderer::ConfigureSurface(const int width, const int height, const bool vsync) {

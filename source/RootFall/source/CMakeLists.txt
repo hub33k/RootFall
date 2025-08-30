@@ -35,10 +35,10 @@ target_link_libraries(${target}
   sdl3webgpu
 
   dawn
-  entt
+  EnTT
   glm
   imgui
-  SDL3
+  SDL3::SDL3-static
   spdlog
   stb
 )

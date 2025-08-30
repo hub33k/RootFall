@@ -25,11 +25,14 @@ namespace hub33k {
   wgpu::Instance CreateInstance() {
     wgpu::InstanceDescriptor instanceDescriptor = {
       .nextInChain = nullptr,
-      .capabilities =
-        {
-          .timedWaitAnyEnable = true,
-        },
+      // .capabilities = {
+      //   .timedWaitAnyEnable = true,
+      // },
     };
+
+    static constexpr auto kTimedWaitAny = wgpu::InstanceFeatureName::TimedWaitAny;
+    instanceDescriptor.requiredFeatureCount = 1;
+    instanceDescriptor.requiredFeatures = &kTimedWaitAny;
 
     // Make sure the uncaptured error callback is called as soon as an error
     // occurs rather than at the next call to "wgpuDeviceTick".
@@ -121,10 +124,14 @@ namespace hub33k {
             reasonName = "Destroyed";
             break;
           }
-          case wgpu::DeviceLostReason::InstanceDropped: {
-            reasonName = "InstanceDropped";
+          case wgpu::DeviceLostReason::CallbackCancelled: {
+            reasonName = "CallbackCancelled";
             break;
           }
+          // case wgpu::DeviceLostReason::InstanceDropped: {
+          //   reasonName = "InstanceDropped";
+          //   break;
+          // }
           case wgpu::DeviceLostReason::FailedCreation: {
             reasonName = "FailedCreation";
             break;

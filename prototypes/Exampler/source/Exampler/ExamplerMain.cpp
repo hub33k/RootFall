@@ -9,71 +9,9 @@
 #include <cstdlib>
 #include <iostream>
 
-struct position {
-  float x;
-  float y;
-};
-
-struct velocity {
-  float dx;
-  float dy;
-};
-
-void update(entt::registry &registry) {
-  auto view = registry.view<const position, velocity>();
-
-  // use a callback
-  view.each([](const auto &pos, auto &vel) { /* ... */ });
-
-  // use an extended callback
-  view.each([](const auto entity, const auto &pos, auto &vel) { /* ... */ });
-
-  // use a range-for
-  for (auto [entity, pos, vel] : view.each()) {
-    // ...
-  }
-
-  // use forward iterators and get only the components of interest
-  for (auto entity : view) {
-    auto &vel = view.get<velocity>(entity);
-    // ...
-  }
-}
-
 int main(const int argc, char *argv[]) {
   (void)argc;
   (void)argv;
-
-  entt::registry registry;
-
-  for (auto i = 0u; i < 10u; ++i) {
-    const auto entity = registry.create();
-    registry.emplace<position>(entity, i * 1.f, i * 1.f);
-    if (i % 2 == 0) {
-      registry.emplace<velocity>(entity, i * .1f, i * .1f);
-    }
-  }
-
-  update(registry);
-
-  wgpu::InstanceDescriptor instanceDescriptor = {};
-  // instanceDescriptor.nextInChain = togglesChain;
-  static constexpr auto kTimedWaitAny = wgpu::InstanceFeatureName::TimedWaitAny;
-  instanceDescriptor.requiredFeatureCount = 1;
-  instanceDescriptor.requiredFeatures = &kTimedWaitAny;
-  wgpu::Instance instance = wgpu::CreateInstance(&instanceDescriptor);
-  if (instance == nullptr) {
-    std::cerr << "Instance creation failed!\n";
-    return EXIT_FAILURE;
-  }
-  std::cout << "Instance: " << instance.Get() << std::endl;
-
-  constexpr auto v = glm::vec3(1.0f, 2.0f, 3.0f);
-  constexpr auto v2 = glm::vec3(4.0f, 5.0f, 6.0f);
-  glm::vec3 v3 = v + v2;
-  std::println("vector3: {:.2f}", v3.x);
-
-  spdlog::info("Welcome to spdlog!");
 
   constexpr int compiled = SDL_VERSION;
   const int linked = SDL_GetVersion();
@@ -99,6 +37,40 @@ int main(const int argc, char *argv[]) {
     SDL_LogError(SDL_LOG_CATEGORY_ERROR, "Could not create window: %s\n", SDL_GetError());
     return 1;
   }
+
+  wgpu::InstanceDescriptor instanceDescriptor = {};
+  // instanceDescriptor.nextInChain = togglesChain;
+  static constexpr auto kTimedWaitAny = wgpu::InstanceFeatureName::TimedWaitAny;
+  instanceDescriptor.requiredFeatureCount = 1;
+  instanceDescriptor.requiredFeatures = &kTimedWaitAny;
+  wgpu::Instance instance = wgpu::CreateInstance(&instanceDescriptor);
+  if (instance == nullptr) {
+    std::cerr << "Instance creation failed!\n";
+    return EXIT_FAILURE;
+  }
+  std::cout << "Instance: " << instance.Get() << std::endl;
+
+  // Setup base adapter options with toggles.
+  wgpu::RequestAdapterOptions adapterOptions = {};
+  // adapterOptions.nextInChain = togglesChain;
+  adapterOptions.backendType = wgpu::BackendType::D3D12;
+  adapterOptions.forceFallbackAdapter = false;
+  adapterOptions.powerPreference = wgpu::PowerPreference::HighPerformance;
+
+  instance.WaitAny(
+    instance.RequestAdapter(
+      &adapterOptions, wgpu::CallbackMode::WaitAnyOnly,
+      [](wgpu::RequestAdapterStatus status, wgpu::Adapter adapter, wgpu::StringView message) {
+        if (status != wgpu::RequestAdapterStatus::Success) {
+          // dawn::ErrorLog() << "Failed to get an adapter: " << message;
+          return;
+        }
+        std::cout << "Adapter: " << adapter.Get() << std::endl;
+        // sample->adapter = std::move(adapter);
+      }
+    ),
+    UINT64_MAX
+  );
 
   bool done = false;
   while (!done) {

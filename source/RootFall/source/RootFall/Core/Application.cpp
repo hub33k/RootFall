@@ -42,7 +42,7 @@ namespace hub33k {
       }
 
       m_Window->OnUpdate();
-      m_Renderer->Display();
+      // m_Renderer->Display();
     }
   }
 
