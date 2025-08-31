@@ -1,7 +1,7 @@
 #set(FETCHCONTENT_BASE_DIR ${CMAKE_SOURCE_DIR}/external)
 #message(${FETCHCONTENT_BASE_DIR})
 
-# include(cmake/GoogleTest.cmake)
+include(cmake/GoogleTest.cmake)
 
 include(cmake/dawn.cmake)
 # include(cmake/entt.cmake)

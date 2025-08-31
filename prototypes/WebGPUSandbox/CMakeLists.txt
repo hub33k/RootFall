@@ -1,0 +1,19 @@
+set(WEBGPUSANDBOX "WebGPUSandbox")
+set(WEBGPUSANDBOX_DIR ${DIR_ROOT}/prototypes/${WEBGPUSANDBOX})
+
+set(WEBGPUSANDBOX_SOURCE_DIR ${WEBGPUSANDBOX_DIR}/source/${WEBGPUSANDBOX})
+set(WEBGPUSANDBOX_HEADERS_DIR ${WEBGPUSANDBOX_DIR})
+
+set(WEBGPUSANDBOX_SOURCES
+  ${WEBGPUSANDBOX_SOURCE_DIR}/Core/Application.cpp
+)
+
+set(WEBGPUSANDBOX_HEADERS
+  ${WEBGPUSANDBOX_SOURCE_DIR}/WebGPUSandboxPCH.hpp
+
+  ${WEBGPUSANDBOX_SOURCE_DIR}/Core/Application.hpp
+)
+
+include(cmake/utils.cmake)
+add_subdirectory(source)
+add_subdirectory(tests)
