@@ -20,6 +20,7 @@
       "name": "debug",
       "hidden": true,
       "inherits": ["common"],
+      "generator": "Ninja",
       "description": "Common debug config",
       "binaryDir": "${sourceDir}/build-debug",
       "cacheVariables": {
@@ -36,7 +37,6 @@
         "CMAKE_BUILD_TYPE": "Release"
       }
     },
-
     {
       "name": "windows",
       "description": "Common windows config",
@@ -55,7 +55,6 @@
         "CMAKE_CXX_COMPILER": "/opt/homebrew/Cellar/llvm@20/20.1.8/bin/clang++"
       }
     },
-
     {
       "name": "windows-debug",
       "inherits": ["common", "debug", "windows"],
@@ -69,6 +68,20 @@
       "cacheVariables": {
         "$comment": "xcrun --show-sdk-path",
         "CMAKE_CXX_FLAGS": "-isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk"
+      }
+    },
+    {
+      "name": "debug-llvm-web",
+      "displayName": "debug-llvm-web",
+      "binaryDir": "${sourceDir}/build-debug-llvm-web",
+      "inherits": ["debug"],
+      "cacheVariables": {
+        "CMAKE_C_COMPILER": "clang",
+        "CMAKE_C_STANDARD": "17",
+        "CMAKE_C_STANDARD_REQUIRED": "ON",
+        "CMAKE_CXX_COMPILER": "clang++",
+        "CMAKE_CXX_STANDARD": "23",
+        "CMAKE_CXX_STANDARD_REQUIRED": "ON"
       }
     }
   ]

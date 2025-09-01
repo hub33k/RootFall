@@ -30,8 +30,16 @@
 #ifndef _sdl3_webgpu_h_
 #define _sdl3_webgpu_h_
 
+#ifndef __EMSCRIPTEN__
+  // On native platforms, include the WebGPU header
+  #include <webgpu/webgpu.h>
+#else
+// On Emscripten, forward declare instead
+typedef struct WGPUInstanceImpl *WGPUInstance;
+typedef struct WGPUSurfaceImpl *WGPUSurface;
+#endif
+
 #include <SDL3/SDL.h>
-#include <webgpu/webgpu.h>
 
 #ifdef __cplusplus
 extern "C" {

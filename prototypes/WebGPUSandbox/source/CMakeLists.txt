@@ -44,7 +44,6 @@ target_link_libraries(${target}
   ${DEFAULT_LIBRARIES}
 
   # TODO (hub33k): handle vendor compiler warnings (interface?)
-  dawn
   EnTT
   glm
   imgui
@@ -52,8 +51,8 @@ target_link_libraries(${target}
   spdlog
   stb
 
-  RootFallCore
-  sdl3webgpu
+  # RootFallCore
+  # sdl3webgpu
 )
 
 # Compile definitions
@@ -88,8 +87,44 @@ target_precompile_headers(${target}
   # ${WEBGPUSANDBOX_CORE_DIR}/source/RootFallCore/RootFallCorePCH.hpp
 )
 
-# Setup vendors
-setup_dawn(${target})
+# Emscripten
+if (EMSCRIPTEN)
+  message(STATUS "[Emscripten] ${target}")
+
+  set(CMAKE_EXECUTABLE_SUFFIX ".html")
+  set_target_properties(${target} PROPERTIES SUFFIX ".html")
+
+  target_link_options(${target} PRIVATE
+    -sUSE_WEBGPU=1 # Handle WebGPU symbols
+    -sUSE_GLFW=3
+    #-sUSE_SDL=3
+    -sASYNCIFY # Required by WebGPU-C++
+    # -sINITIAL_MEMORY=1GB
+    -sALLOW_MEMORY_GROWTH=1
+    # -sTOTAL_STACK=512MB
+    # -sUSE_PTHREADS=1
+    --preload-file "${DIR_DATA}"
+  )
+
+  # target_compile_options(${target}
+  #   PUBLIC
+  #   -pthread
+  # )
+endif ()
+
+# Not Emscripten
+if (NOT EMSCRIPTEN)
+  message(STATUS "[Not Emscripten] ${target}")
+
+  target_link_libraries(${target}
+    PRIVATE
+    ${DEFAULT_LIBRARIES}
+    dawn
+  )
+
+  # Libraries config
+  setup_dawn(${target})
+endif ()
 
 # set(sources
 #   ${WEBGPUSANDBOX_SOURCE_DIR}/${WEBGPUSANDBOX}Build.cpp

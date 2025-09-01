@@ -9,7 +9,20 @@
 #include <cstdlib>
 #include <iostream>
 
+#include "WebGPUSandbox/Core/Application.hpp"
+
 int main(const int argc, char *argv[]) {
+  (void)argc;
+  (void)argv;
+
+  const auto app = new hub33k::Application();
+  app->Run();
+  delete app;
+
+  return 0;
+}
+
+int main2(const int argc, char *argv[]) {
   (void)argc;
   (void)argv;
 
@@ -32,7 +45,7 @@ int main(const int argc, char *argv[]) {
     return 1;
   }
 
-  SDL_Window *window = SDL_CreateWindow("WebGPU Sandbox", 800, 600, 0);
+  SDL_Window *window = SDL_CreateWindow("WebGPU Sandbox", 800, 600, SDL_WINDOW_HIDDEN);
   if (window == nullptr) {
     SDL_LogError(SDL_LOG_CATEGORY_ERROR, "Could not create window: %s\n", SDL_GetError());
     return 1;
@@ -73,6 +86,7 @@ int main(const int argc, char *argv[]) {
   );
 
   bool done = false;
+  SDL_ShowWindow(window);
   while (!done) {
     SDL_Event event;
 

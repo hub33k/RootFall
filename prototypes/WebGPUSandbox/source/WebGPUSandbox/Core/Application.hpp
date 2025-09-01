@@ -5,14 +5,17 @@ namespace hub33k {
   struct WindowProps {
     int Width = 800;
     int Height = 600;
-    std::string Title = "WebGPUSandbox";
+    std::string Title = "WebGPU Sandbox";
     SDL_WindowFlags Flags = 0;
+    bool IsVsync = true;
   };
 
   class Application {
   public:
     Application();
     virtual ~Application();
+
+    void Run();
 
   private:
     bool m_IsRunning = true;
@@ -28,10 +31,13 @@ namespace hub33k {
     wgpu::SurfaceConfiguration m_SurfaceConfiguration = {};
 
   private:
+    void Frame();
     void Init();
     void Shutdown();
-    void Run();
-    void Frame();
+
+    void InitWebGPU();
+
+    void ConfigureSurface(int width, int height, bool vsync);
   };
 
 } // namespace hub33k

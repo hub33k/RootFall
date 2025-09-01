@@ -31,17 +31,23 @@
 #include <glm/ext/matrix_transform.hpp>
 #include <glm/glm.hpp>
 #include <spdlog/spdlog.h>
-#include <webgpu/webgpu_cpp.h>
 
 // Internal
 // ================================================================
 
-// #include "RootFallCore/Core/Base.hpp"
-// #include "RootFallCore/Debug/Instrumentor.hpp"
+#include "RootFallCore/Core/Base.hpp"
+#include "RootFallCore/Debug/Instrumentor.hpp"
 
-// #include "Pong/Core/Base.hpp"
+#include "WebGPUSandbox/Core/Base.hpp"
 
 // Platform specific
 // ================================================================
+
+#if HK_PLATFORM_IS(EMSCRIPTEN)
+  #include <emscripten.h>
+  #include <emscripten/emscripten.h>
+#else
+  #include <webgpu/webgpu_cpp.h>
+#endif
 
 // IWYU pragma: end_exports

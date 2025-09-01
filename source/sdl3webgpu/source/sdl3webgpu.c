@@ -32,7 +32,7 @@
 
 #include "sdl3webgpu.h"
 
-#include <webgpu/webgpu.h>
+// #include <webgpu/webgpu.h>
 
 #if defined(SDL_PLATFORM_MACOS)
   #include <Cocoa/Cocoa.h>
