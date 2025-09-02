@@ -74,15 +74,7 @@
       "name": "debug-llvm-web",
       "displayName": "debug-llvm-web",
       "binaryDir": "${sourceDir}/build-debug-llvm-web",
-      "inherits": ["debug"],
-      "cacheVariables": {
-        "CMAKE_C_COMPILER": "clang",
-        "CMAKE_C_STANDARD": "17",
-        "CMAKE_C_STANDARD_REQUIRED": "ON",
-        "CMAKE_CXX_COMPILER": "clang++",
-        "CMAKE_CXX_STANDARD": "23",
-        "CMAKE_CXX_STANDARD_REQUIRED": "ON"
-      }
+      "inherits": ["debug"]
     }
   ]
 }

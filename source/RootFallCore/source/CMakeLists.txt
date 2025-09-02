@@ -49,7 +49,7 @@ target_link_libraries(${target}
   PUBLIC
   ${DEFAULT_LIBRARIES}
 
-  spdlog
+  RootFallExternal
 
   INTERFACE
 )

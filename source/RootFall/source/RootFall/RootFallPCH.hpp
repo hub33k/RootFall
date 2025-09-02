@@ -21,18 +21,20 @@
 // Vendor
 // ================================================================
 
-#include <SDL3/SDL.h>
-#include <entt/entt.hpp>
-#include <glm/ext/matrix_transform.hpp>
-#include <glm/glm.hpp>
-#include <spdlog/spdlog.h>
-#include <webgpu/webgpu_cpp.h>
+// #include <SDL3/SDL.h>
+// #include <entt/entt.hpp>
+// #include <glm/ext/matrix_transform.hpp>
+// #include <glm/glm.hpp>
+// #include <spdlog/spdlog.h>
+// #include <webgpu/webgpu_cpp.h>
 
 // Internal
 // ================================================================
 
-#include "RootFallCore/Core/Base.hpp"
-#include "RootFallCore/Debug/Instrumentor.hpp"
+// #include "RootFallCore/Core/Base.hpp"
+// #include "RootFallCore/Debug/Instrumentor.hpp"
+
+// #include "Pong/Core/Base.hpp"
 
 // Platform specific
 // ================================================================
