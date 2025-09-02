@@ -43,19 +43,8 @@ target_link_libraries(${target}
   PRIVATE
   ${DEFAULT_LIBRARIES}
 
-  RootFallExternal
-  RootFallCore
-
-  # sdl3webgpu
-
-  # TODO (hub33k): handle vendor compiler warnings (interface?)
-  # dawn
-  # EnTT
-  # glm
-  # imgui
-  # SDL3::SDL3-static
-  # spdlog
-  # stb
+  ${ROOTFALL_EXTERNAL}
+  ${ROOTFALL_CORE}
 )
 
 # Compile definitions
@@ -92,6 +81,9 @@ target_precompile_headers(${target}
 
 # Emscripten
 if(EMSCRIPTEN)
+  # https://dawn.googlesource.com/dawn/+/refs/heads/main/src/emdawnwebgpu/pkg/README.md
+  # https://github.com/emscripten-core/emscripten/blob/main/tools/ports/emdawnwebgpu.py
+
   message(STATUS "Emscripten build ${target}")
 
   set(CMAKE_EXECUTABLE_SUFFIX ".html")
@@ -101,6 +93,7 @@ if(EMSCRIPTEN)
     -sUSE_WEBGPU=1 # Handle WebGPU symbols
     # --use-port=emdawnwebgpu
     # em++: warning: USE_WEBGPU is deprecated (please try migrating to --use-port=emdawnwebgpu, which implements a newer, incompatible version of webgpu.h (see tools/ports/emdawnwebgpu.py for more info)). Please open a bug if you have a continuing need for this setting [-Wdeprecated]
+    --closure=1
     -sUSE_GLFW=3
     -sASYNCIFY # Required by WebGPU-C++
     # -sINITIAL_MEMORY=1GB
@@ -120,11 +113,11 @@ endif()
 if(NOT EMSCRIPTEN)
   message(STATUS "Not Emscripten build ${target}")
 
-  target_link_libraries(${target}
-    PRIVATE
-    ${DEFAULT_LIBRARIES}
-    dawn
-  )
+  # target_link_libraries(${target}
+  #   PRIVATE
+  #   ${DEFAULT_LIBRARIES}
+  #   dawn
+  # )
 
   # Setup vendors
   setup_dawn(${target})

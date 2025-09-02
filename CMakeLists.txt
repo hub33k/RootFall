@@ -18,7 +18,6 @@ set(DIR_VENDOR ${DIR_ROOT}/vendor)
 set(DIR_BUILD ${CMAKE_BINARY_DIR})
 set(DIR_BUILD_VENDOR ${DIR_ROOT}/build-vendor)
 
-
 # Project description and (meta) information
 # ================================================================
 
@@ -59,6 +58,9 @@ string(TOUPPER ${META_PROJECT_ID} META_PROJECT_ID)
 # PreConfigure
 # Config that needs to be executed before `project()`
 # ================================================================
+
+# Disable C++ Modules (for Emscripten)
+set(CMAKE_CXX_SCAN_FOR_MODULES OFF)
 
 include(FetchContent)
 include(GenerateExportHeader)

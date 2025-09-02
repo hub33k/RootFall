@@ -1,22 +1,35 @@
-# TODO (hub33k): create variables
+set(ROOTFALL_EXTERNAL "RootFallExternal" CACHE STRING "RootFallExternal")
+set(ROOTFALL_EXTERNAL_DIR ${DIR_SOURCE}/${ROOTFALL_EXTERNAL})
 
-add_library(RootFallExternal INTERFACE)
+add_library(${ROOTFALL_EXTERNAL} INTERFACE)
 
-target_link_libraries(RootFallExternal
+target_link_libraries(${ROOTFALL_EXTERNAL}
   INTERFACE
-  # dawn
   EnTT
   glm
   imgui
-  SDL3::SDL3-static
+  SDL3-static
   spdlog
   stb
 )
 
+if(NOT EMSCRIPTEN)
+  target_link_libraries(${ROOTFALL_EXTERNAL}
+    INTERFACE
+    dawn
+    # sdl3webgpu
+  )
+  set_target_properties(dawn PROPERTIES INTERFACE_SYSTEM_INCLUDE_DIRECTORIES $<TARGET_PROPERTY:dawn,INTERFACE_INCLUDE_DIRECTORIES>)
+endif()
+
 # disable warnings from external libraries
 # https://stackoverflow.com/questions/56707123/how-to-suppress-clang-warnings-in-third-party-library-header-file-in-cmakelists
 set_target_properties(EnTT PROPERTIES INTERFACE_SYSTEM_INCLUDE_DIRECTORIES $<TARGET_PROPERTY:EnTT,INTERFACE_INCLUDE_DIRECTORIES>)
+set_target_properties(glm PROPERTIES INTERFACE_SYSTEM_INCLUDE_DIRECTORIES $<TARGET_PROPERTY:glm,INTERFACE_INCLUDE_DIRECTORIES>)
+set_target_properties(imgui PROPERTIES INTERFACE_SYSTEM_INCLUDE_DIRECTORIES $<TARGET_PROPERTY:imgui,INTERFACE_INCLUDE_DIRECTORIES>)
+set_target_properties(SDL3-static PROPERTIES INTERFACE_SYSTEM_INCLUDE_DIRECTORIES $<TARGET_PROPERTY:SDL3-static,INTERFACE_INCLUDE_DIRECTORIES>)
 set_target_properties(spdlog PROPERTIES INTERFACE_SYSTEM_INCLUDE_DIRECTORIES $<TARGET_PROPERTY:spdlog,INTERFACE_INCLUDE_DIRECTORIES>)
+set_target_properties(stb PROPERTIES INTERFACE_SYSTEM_INCLUDE_DIRECTORIES $<TARGET_PROPERTY:stb,INTERFACE_INCLUDE_DIRECTORIES>)
 
 # target_include_directories(RootFallExternal
 #   SYSTEM INTERFACE

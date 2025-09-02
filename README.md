@@ -24,6 +24,10 @@ cmake --preset windows-debug # adjust
 
 cmake --build ./build-debug --target help # list all targets
 cmake --build ./build-debug --target RootFall
+
+# emscripten
+emcmake cmake --preset debug-llvm-web -B build-web -G Ninja
+cmake --build ./build-web --target RootFall
 ```
 
 ## Docs

@@ -23,8 +23,14 @@ int main(const int argc, char *argv[]) {
   // wgpu::Instance instance = wgpu::CreateInstance(&instanceDescriptor);
 
   // wgpu::InstanceDescriptor instanceDesc{};
-  // wgpu::Instance instance = wgpu::CreateInstance(&instanceDesc);
-  // std::cout << "Instance: " << instance.Get() << std::endl;
+  wgpu::Instance instance = wgpu::CreateInstance(nullptr);
+  std::cout << "Instance: " << instance.Get() << std::endl;
+
+  // WGPUInstanceDescriptor instanceDesc{};
+  // instanceDesc.nextInChain = nullptr;
+  // WGPUInstance instance = wgpuCreateInstance(&instanceDesc);
+  // std::cout << "Instance: " << instance << std::endl;
+  // wgpuInstanceRelease(instance);
 
   std::cout << "RootFall" << std::endl;
 

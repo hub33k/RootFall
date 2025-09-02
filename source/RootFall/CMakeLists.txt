@@ -1,4 +1,4 @@
-set(ROOTFALL "RootFall")
+set(ROOTFALL "RootFall" CACHE STRING "RootFall")
 set(ROOTFALL_DIR ${DIR_ROOT}/source/${ROOTFALL})
 
 set(ROOTFALL_SOURCE_DIR ${ROOTFALL_DIR}/source/${ROOTFALL})
