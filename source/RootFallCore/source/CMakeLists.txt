@@ -10,15 +10,19 @@ message(STATUS "[Library] ${target}")
 # Group source files
 set(header_group "Header Files (API)")
 set(source_group "Source Files")
-source_group_by_path(${ROOTFALL_CORE_HEADERS_DIR} "\\\\.h$|\\\\.hpp$"
-  ${header_group} ${ROOTFALL_CORE_HEADERS}
+source_group_by_path(${target_headers_dir} "\\\\.h$|\\\\.hpp$"
+  ${header_group} ${target_headers}
 )
-source_group_by_path(${ROOTFALL_CORE_SOURCE_DIR}  "\\\\.cpp$|\\\\.c$|\\\\.h$|\\\\.hpp$"
-  ${source_group} ${ROOTFALL_CORE_SOURCES}
+source_group_by_path(${target_source_dir}  "\\\\.cpp$|\\\\.c$|\\\\.h$|\\\\.hpp$"
+  ${source_group} ${target_sources}
 )
 
 # Create library
-add_library(${target} OBJECT ${ROOTFALL_CORE_SOURCES} ${ROOTFALL_CORE_HEADERS})
+add_library(${target} OBJECT
+  ${target_source_dir}/${target}PCH.cpp
+
+  ${target_sources} ${target_headers}
+)
 
 # Project options
 set_target_properties(${target}
@@ -91,7 +95,7 @@ target_link_options(${target}
 )
 
 # Precompiled headers - PCH
-# target_precompile_headers(${target}
-#   PRIVATE
-#   ${ROOTFALL_CORE_SOURCE_DIR}/RootFallCorePCH.hpp
-# )
+target_precompile_headers(${target}
+  PRIVATE
+  ${target_source_dir}/${target}PCH.hpp
+)
