@@ -5,11 +5,13 @@ set(ROOTFALL_SOURCE_DIR ${ROOTFALL_DIR}/source/${ROOTFALL})
 set(ROOTFALL_HEADERS_DIR ${ROOTFALL_DIR})
 
 set(ROOTFALL_SOURCES
-  # ${ROOTFALL_SOURCE_DIR}/Core/Application.cpp
+  ${ROOTFALL_SOURCE_DIR}/Game/Application.cpp
 )
 
 set(ROOTFALL_HEADERS
   ${ROOTFALL_SOURCE_DIR}/RootFallPCH.hpp
+
+  ${ROOTFALL_SOURCE_DIR}/Game/Application.hpp
 )
 
 add_subdirectory(source)

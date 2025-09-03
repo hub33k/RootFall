@@ -5,9 +5,28 @@ set(ROOTFALL_CORE_SOURCE_DIR ${ROOTFALL_CORE_DIR}/source/${ROOTFALL_CORE})
 set(ROOTFALL_CORE_HEADERS_DIR ${ROOTFALL_CORE_DIR})
 
 set(ROOTFALL_CORE_SOURCES
-  # ${ROOTFALL_CORE_SOURCE_DIR}/Core/Log.cpp
+  ${ROOTFALL_CORE_SOURCE_DIR}/Core/Log.cpp
 )
-set(ROOTFALL_CORE_HEADERS)
+
+set(ROOTFALL_CORE_HEADERS
+  ${ROOTFALL_CORE_SOURCE_DIR}/${ROOTFALL_CORE}PCH.hpp
+
+  ${ROOTFALL_CORE_SOURCE_DIR}/Core/Assert.hpp
+  ${ROOTFALL_CORE_SOURCE_DIR}/Core/Base.hpp
+  ${ROOTFALL_CORE_SOURCE_DIR}/Core/Compiler.hpp
+  ${ROOTFALL_CORE_SOURCE_DIR}/Core/Defines.hpp
+  ${ROOTFALL_CORE_SOURCE_DIR}/Core/Endianness.hpp
+  ${ROOTFALL_CORE_SOURCE_DIR}/Core/Log.hpp
+  ${ROOTFALL_CORE_SOURCE_DIR}/Core/Platform.hpp
+  ${ROOTFALL_CORE_SOURCE_DIR}/Core/Timer.hpp
+  ${ROOTFALL_CORE_SOURCE_DIR}/Core/Timestep.hpp
+)
+
+if (WIN32)
+  list(APPEND ROOTFALL_CORE_HEADERS
+    ${ROOTFALL_CORE_SOURCE_DIR}/Platform/Windows/WindowsWithUndefs.hpp
+  )
+endif()
 
 add_subdirectory(source)
 add_subdirectory(tests)
