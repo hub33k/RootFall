@@ -17,14 +17,21 @@ namespace hub33k {
     m_Window =
       SDL_CreateWindow(m_WindowProps.Title.c_str(), m_WindowProps.Width, m_WindowProps.Height, m_WindowProps.Flags);
     if (!m_Window) {
+      SDL_Quit();
       HK_LOG_ERROR("Window could not be created! SDL_Error: {}", SDL_GetError());
       HK_ASSERT(m_Window, "Failed to create SDL window")
     }
     HK_LOG_INFO("Creating window: \"{0}\" ({1}x{2})", m_WindowProps.Title, m_WindowProps.Width, m_WindowProps.Height);
+
+    InitWebGPU(m_Window, m_WebGPUContext);
+
+    std::cout << "Instance: " << m_WebGPUContext.Instance.Get() << '\n';
+    std::cout << "Adapter: " << m_WebGPUContext.Adapter.Get() << '\n';
   }
 
   Application::~Application() {
     std::println("Shutting down...");
+    DeinitWebGPU(m_WebGPUContext);
     SDL_DestroyWindow(m_Window);
     SDL_Quit();
   }
@@ -92,7 +99,7 @@ namespace hub33k {
     m_IsRunning = false;
 
 #if HK_PLATFORM_IS(EMSCRIPTEN)
-    emscripten_cancel_main_loop();
+    // emscripten_cancel_main_loop();
 #endif
   }
 

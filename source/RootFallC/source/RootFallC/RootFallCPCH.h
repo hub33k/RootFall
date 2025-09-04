@@ -6,38 +6,31 @@
 // https://en.cppreference.com/w/c/header
 // ================================================================
 
-// C++ Standard Library headers
-// https://en.cppreference.com/w/cpp/header
-// ================================================================
-
-#include <algorithm>
-#include <cmath>
-#include <cstdint>
-#include <functional>
-#include <iostream>
-#include <print>
-#include <string>
+#include <assert.h>
+#include <inttypes.h>
+#include <stdbool.h>
+#include <stddef.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 // Vendor
 // ================================================================
 
+#define SDL_MAIN_HANDLED
 #include <SDL3/SDL.h>
-// #include <entt/entt.hpp>
 // #include <glm/ext/matrix_transform.hpp>
 // #include <glm/glm.hpp>
-// #include <spdlog/spdlog.h>
-#include <webgpu/webgpu_cpp.h>
+#include <webgpu/webgpu.h>
+
+#include "RootFallC/Vendor/linmath.h/linmath.h"
 
 // Internal
 // ================================================================
 
-#include "RootFallCore/Core/Base.hpp"
+#include "RootFallC/Core/Base.h"
 
 // Platform specific
 // ================================================================
-
-#if HK_PLATFORM_IS(EMSCRIPTEN)
-  #include <emscripten/emscripten.h>
-#endif
 
 // IWYU pragma: end_exports

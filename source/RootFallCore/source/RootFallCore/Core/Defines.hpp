@@ -49,3 +49,44 @@ namespace hk {
   using f64 = double;
 
 } // namespace hk
+
+// ================================================================
+
+#define BIT(x) (1 << x)
+
+#define KB(x) ((unsigned long long)1024 * x)
+#define MB(x) ((unsigned long long)1024 * KB(x))
+#define GB(x) ((unsigned long long)1024 * MB(x))
+
+#define ARRAY_SIZE(x) (sizeof((x)) / sizeof((x)[0]))
+
+#define HK_EXPAND_MACRO(x) x
+#define HK_STRINGIFY_MACRO(x) #x
+#define HK_QUOTE(name) #name
+#define HK_STR(macro) HK_QUOTE(macro)
+#define HK_BIND_EVENT_FN(fn)                                                                                           \
+  [this](auto &&...args) -> decltype(auto) { return this->fn(std::forward<decltype(args)>(args)...); }
+
+// ================================================================
+
+// Convenient way to purposefully mark a variable as unused to avoid warning
+#define HK_UNUSED(x) ((void)x)
+
+// Forward declare a class or struct, and define a lot of typedefs for different pointer types all at once.
+#define HK_CLASS(ClassName)                                                                                            \
+  class ClassName;                                                                                                     \
+  typedef std::shared_ptr<ClassName> ClassName##Ptr;                                                                   \
+  typedef std::shared_ptr<const ClassName> ClassName##ConstPtr;                                                        \
+  typedef std::weak_ptr<ClassName> ClassName##WeakPtr;                                                                 \
+  typedef std::weak_ptr<const ClassName> ClassName##ConstWeakPtr;                                                      \
+  typedef std::unique_ptr<ClassName> ClassName##UPtr;                                                                  \
+  typedef std::unique_ptr<const ClassName> ClassName##ConstUPtr
+
+#define HK_STRUCT(StructName)                                                                                          \
+  struct StructName;                                                                                                   \
+  typedef std::shared_ptr<StructName> StructName##Ptr;                                                                 \
+  typedef std::shared_ptr<const StructName> StructName##ConstPtr;                                                      \
+  typedef std::weak_ptr<StructName> StructName##WeakPtr;                                                               \
+  typedef std::weak_ptr<const StructName> StructName##ConstWeakPtr;                                                    \
+  typedef std::unique_ptr<StructName> StructName##UPtr;                                                                \
+  typedef std::unique_ptr<const StructName> StructName##ConstUPtr

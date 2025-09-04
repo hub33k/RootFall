@@ -17,7 +17,7 @@ if(NOT EMSCRIPTEN)
   target_link_libraries(${ROOTFALL_EXTERNAL}
     INTERFACE
     dawn
-    # sdl3webgpu
+    sdl3webgpu
   )
   set_target_properties(dawn PROPERTIES INTERFACE_SYSTEM_INCLUDE_DIRECTORIES $<TARGET_PROPERTY:dawn,INTERFACE_INCLUDE_DIRECTORIES>)
 endif()

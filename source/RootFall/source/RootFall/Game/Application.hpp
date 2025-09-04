@@ -1,5 +1,6 @@
 #pragma once
 
+#include "RootFall/Platform/WebGPU/WebGPUUtils.hpp"
 #include "RootFallCore/Core/Timestep.hpp"
 
 namespace hub33k {
@@ -36,6 +37,7 @@ namespace hub33k {
     bool m_IsRunning = true;
     SDL_Window *m_Window = nullptr;
     WindowProps m_WindowProps;
+    WebGPUContext m_WebGPUContext;
 
   private:
   };

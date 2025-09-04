@@ -17,9 +17,11 @@
 #if defined(BUILD_DEBUG) || !defined(NDEBUG)
   #define HK_BUILD_DEBUG 1
   #define HK_BUILD_RELEASE 0
+constexpr bool DebugEnabled = true;
 #elif defined(BUILD_RELEASE) || defined(NDEBUG)
   #define HK_BUILD_DEBUG 0
   #define HK_BUILD_RELEASE 1
+constexpr bool DebugEnabled = false;
 #else
   #error "Unknown build type!"
 #endif
@@ -37,21 +39,6 @@
 #define SHADERS_DIR(fileName) (std::string(ASSETS_DIR) + "shaders/" + (fileName))
 #define FONTS_DIR(fileName) (std::string(ASSETS_DIR) + "fonts/" + (fileName))
 #define SOUNDS_DIR(fileName) (std::string(ASSETS_DIR) + "sounds/" + (fileName))
-
-// ================================================================
-
-#define BIT(x) (1 << x)
-
-#define KB(x) ((unsigned long long)1024 * x)
-#define MB(x) ((unsigned long long)1024 * KB(x))
-#define GB(x) ((unsigned long long)1024 * MB(x))
-
-#define ARRAY_SIZE(x) (sizeof((x)) / sizeof((x)[0]))
-
-#define HK_EXPAND_MACRO(x) x
-#define HK_STRINGIFY_MACRO(x) #x
-#define HK_BIND_EVENT_FN(fn)                                                                                           \
-  [this](auto &&...args) -> decltype(auto) { return this->fn(std::forward<decltype(args)>(args)...); }
 
 // ================================================================
 
@@ -79,7 +66,8 @@ namespace hub33k {
 
 // IWYU pragma: begin_exports
 #include "RootFallCore/Core/Assert.hpp"
-#include "RootFallCore/Core/Defines.hpp"
 #include "RootFallCore/Core/Endianness.hpp"
 #include "RootFallCore/Core/Log.hpp"
+
+#include "RootFallCore/Core/Defines.hpp"
 // IWYU pragma: end_exports

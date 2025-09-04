@@ -6,12 +6,16 @@ set(ROOTFALL_HEADERS_DIR ${ROOTFALL_DIR})
 
 set(ROOTFALL_SOURCES
   ${ROOTFALL_SOURCE_DIR}/Game/Application.cpp
+
+  ${ROOTFALL_SOURCE_DIR}/Platform/WebGPU/WebGPUUtils.cpp
 )
 
 set(ROOTFALL_HEADERS
   ${ROOTFALL_SOURCE_DIR}/RootFallPCH.hpp
 
   ${ROOTFALL_SOURCE_DIR}/Game/Application.hpp
+
+  ${ROOTFALL_SOURCE_DIR}/Platform/WebGPU/WebGPUUtils.hpp
 )
 
 add_subdirectory(source)

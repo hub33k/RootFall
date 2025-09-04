@@ -1,8 +1,8 @@
 #include "RootFall/Game/Application.hpp"
 
 int main(const int argc, char *argv[]) {
-  (void)argc;
-  (void)argv;
+  HK_UNUSED(argc);
+  HK_UNUSED(argv);
 
   hub33k::Log::Init();
 
