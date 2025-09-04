@@ -94,7 +94,8 @@ if(EMSCRIPTEN)
     # --use-port=emdawnwebgpu
     # em++: warning: USE_WEBGPU is deprecated (please try migrating to --use-port=emdawnwebgpu, which implements a newer, incompatible version of webgpu.h (see tools/ports/emdawnwebgpu.py for more info)). Please open a bug if you have a continuing need for this setting [-Wdeprecated]
     --closure=1
-    -sUSE_GLFW=3
+    # -sUSE_GLFW=3
+    -sUSE_SDL=3
     -sASYNCIFY # Required by WebGPU-C++
     # -sINITIAL_MEMORY=1GB
     -sALLOW_MEMORY_GROWTH=1

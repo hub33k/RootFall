@@ -21,7 +21,7 @@
 // Vendor
 // ================================================================
 
-// #include <SDL3/SDL.h>
+#include <SDL3/SDL.h>
 // #include <entt/entt.hpp>
 // #include <glm/ext/matrix_transform.hpp>
 // #include <glm/glm.hpp>
@@ -35,5 +35,9 @@
 
 // Platform specific
 // ================================================================
+
+#if HK_PLATFORM_IS(EMSCRIPTEN)
+  #include <emscripten/emscripten.h>
+#endif
 
 // IWYU pragma: end_exports
