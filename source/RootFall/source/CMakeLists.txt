@@ -90,18 +90,19 @@ if(EMSCRIPTEN)
   set_target_properties(${target} PROPERTIES SUFFIX ".html")
 
   target_link_options(${target} PRIVATE
-    -sUSE_WEBGPU=1 # Handle WebGPU symbols
+    -sASYNCIFY=1 # Required by WebGPU-C++
+    -sUSE_SDL=3
+    # --closure=1
+    # -sALLOW_MEMORY_GROWTH=1
+    # --preload-file "${DIR_DATA}"
+
+    # -sUSE_WEBGPU=1 # Handle WebGPU symbols
     # --use-port=emdawnwebgpu
     # em++: warning: USE_WEBGPU is deprecated (please try migrating to --use-port=emdawnwebgpu, which implements a newer, incompatible version of webgpu.h (see tools/ports/emdawnwebgpu.py for more info)). Please open a bug if you have a continuing need for this setting [-Wdeprecated]
-    --closure=1
     # -sUSE_GLFW=3
-    -sUSE_SDL=3
-    -sASYNCIFY # Required by WebGPU-C++
     # -sINITIAL_MEMORY=1GB
-    -sALLOW_MEMORY_GROWTH=1
     # -sTOTAL_STACK=512MB
     # -sUSE_PTHREADS=1
-    --preload-file "${DIR_DATA}"
   )
 
   # target_compile_options(${target}
@@ -121,5 +122,5 @@ if(NOT EMSCRIPTEN)
   # )
 
   # Setup vendors
-  setup_dawn(${target})
+  # setup_dawn(${target})
 endif()

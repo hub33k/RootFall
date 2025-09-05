@@ -10,7 +10,7 @@ namespace hub33k {
     int Width = 800;
     int Height = 600;
     bool Fullscreen = false;
-    bool VSync = false;
+    bool VSync = true;
     SDL_WindowFlags Flags = 0;
   };
 
@@ -29,6 +29,14 @@ namespace hub33k {
     void Render(const Timestep ts);
 
     void Close();
+
+    // Getters & setters
+    // ================================================================
+
+    bool IsRunning() const { return m_IsRunning; }
+    SDL_Window *GetWindow() const { return m_Window; }
+    const WindowProps &GetWindowProps() const { return m_WindowProps; }
+    WebGPUContext &GetWebGPUContext() { return m_WebGPUContext; }
 
   private:
     static Application *s_Instance;

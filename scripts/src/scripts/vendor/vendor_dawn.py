@@ -115,6 +115,10 @@ def main():
     # TODO (hub33k): handle key interrupt, try/catch
     # TODO (hub33k): add typer (cli options - configure, build, install, etc.)
 
+    print("Using vendor/dawn")
+
+    return
+
     # Prepare dirs
     if not Path.exists(DIR_SRC):
         Path.mkdir(DIR_SRC, parents=True)

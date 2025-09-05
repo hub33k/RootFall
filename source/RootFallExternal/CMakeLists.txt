@@ -11,15 +11,24 @@ target_link_libraries(${ROOTFALL_EXTERNAL}
   SDL3-static
   spdlog
   stb
+
+  sdl3webgpu
 )
+
+if(EMSCRIPTEN)
+  target_link_libraries(${ROOTFALL_EXTERNAL}
+    INTERFACE
+    emdawnwebgpu_cpp
+  )
+  set_target_properties(emdawnwebgpu_cpp PROPERTIES INTERFACE_SYSTEM_INCLUDE_DIRECTORIES $<TARGET_PROPERTY:emdawnwebgpu_cpp,INTERFACE_INCLUDE_DIRECTORIES>)
+endif()
 
 if(NOT EMSCRIPTEN)
   target_link_libraries(${ROOTFALL_EXTERNAL}
     INTERFACE
-    dawn
-    sdl3webgpu
+    webgpu_dawn
   )
-  set_target_properties(dawn PROPERTIES INTERFACE_SYSTEM_INCLUDE_DIRECTORIES $<TARGET_PROPERTY:dawn,INTERFACE_INCLUDE_DIRECTORIES>)
+  set_target_properties(webgpu_dawn PROPERTIES INTERFACE_SYSTEM_INCLUDE_DIRECTORIES $<TARGET_PROPERTY:webgpu_dawn,INTERFACE_INCLUDE_DIRECTORIES>)
 endif()
 
 # disable warnings from external libraries
