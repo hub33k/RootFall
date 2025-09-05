@@ -106,6 +106,9 @@ project(${META_PROJECT_NAME}
 
 enable_language(C)
 enable_language(CXX)
+if(APPLE)
+  enable_language(OBJC)
+endif()
 
 
 # Configuration

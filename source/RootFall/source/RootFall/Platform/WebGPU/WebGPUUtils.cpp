@@ -48,6 +48,8 @@ namespace hub33k {
           return "CPU";
         case wgpu::AdapterType::Unknown:
           break;
+        default:
+          break;
       }
       return "unknown";
     }
@@ -72,6 +74,8 @@ namespace hub33k {
           return "OpenGLES";
         case wgpu::BackendType::Undefined:
           return "Undefined";
+        default:
+          break;
       }
       return "unknown";
     }
@@ -84,6 +88,8 @@ namespace hub33k {
           return "high performance";
         case wgpu::PowerPreference::Undefined:
           return "<undefined>";
+        default:
+          break;
       }
       return "<unknown>";
     }
