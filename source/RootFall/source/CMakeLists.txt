@@ -89,12 +89,18 @@ if(EMSCRIPTEN)
   set(CMAKE_EXECUTABLE_SUFFIX ".html")
   set_target_properties(${target} PROPERTIES SUFFIX ".html")
 
+  set_target_properties(${target} PROPERTIES
+    LINK_FLAGS "--preload-file ${DIR_DATA}@/data"
+  )
+
   target_link_options(${target} PRIVATE
     -sASYNCIFY=1 # Required by WebGPU-C++
     -sUSE_SDL=3
-    # --closure=1
-    # -sALLOW_MEMORY_GROWTH=1
+
     # --preload-file "${DIR_DATA}"
+    -sALLOW_MEMORY_GROWTH=1
+
+    # --closure=1
 
     # -sUSE_WEBGPU=1 # Handle WebGPU symbols
     # --use-port=emdawnwebgpu

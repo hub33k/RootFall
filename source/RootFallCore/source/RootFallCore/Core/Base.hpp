@@ -28,10 +28,14 @@ constexpr bool DebugEnabled = false;
 
 // ================================================================
 
-#if HK_BUILD_DEBUG
-  #define ASSETS_DIR PROJECT_ROOT_DIR + std::string("data/")
+#if HK_PLATFORM_IS(EMSCRIPTEN)
+  #define ASSETS_DIR "/data/"
 #else
-  #define ASSETS_DIR "data/"
+  #if HK_BUILD_DEBUG
+    #define ASSETS_DIR PROJECT_ROOT_DIR + std::string("data/")
+  #else
+    #define ASSETS_DIR "data/"
+  #endif
 #endif
 
 #define DATA_DIR(fileName) (std::string(ASSETS_DIR) + (fileName))

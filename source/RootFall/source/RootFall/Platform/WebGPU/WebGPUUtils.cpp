@@ -227,6 +227,17 @@ namespace hub33k {
       DumpAdapterLimits(adapter);
     }
 
+    // void DumpDevice(const wgpu::Device &device) {
+    //   std::cout << "Device\n";
+    //   std::cout << "======\n";
+    //   // TODO (hub33k): implement
+    // }
+
+    void Test(const wgpu::Adapter &adapter, const wgpu::Device &device) {
+      HK_UNUSED(adapter);
+      HK_UNUSED(device);
+    }
+
   } // namespace WebGPU::Info
 #endif
 
@@ -236,15 +247,23 @@ namespace hub33k {
   static std::vector<std::string> disableToggles;
 
   wgpu::Instance CreateWGPUInstance() {
-    wgpu::Instance instance = nullptr;
-
     // Create the instance with the toggles
-    wgpu::InstanceDescriptor instanceDescriptor = {};
-    instanceDescriptor.nextInChain = togglesChain;
-    static constexpr auto kTimedWaitAny = wgpu::InstanceFeatureName::TimedWaitAny;
-    instanceDescriptor.requiredFeatureCount = 1;
-    instanceDescriptor.requiredFeatures = &kTimedWaitAny;
-    instance = wgpu::CreateInstance(&instanceDescriptor);
+    wgpu::InstanceDescriptor instanceDescriptor = {
+      .nextInChain = togglesChain,
+    };
+
+    // Required features
+    std::vector<wgpu::InstanceFeatureName> requiredFeatures;
+    requiredFeatures.push_back(wgpu::InstanceFeatureName::TimedWaitAny);
+
+    instanceDescriptor.requiredFeatureCount = requiredFeatures.size();
+    instanceDescriptor.requiredFeatures = requiredFeatures.data();
+
+    // Required limits
+    std::vector<wgpu::InstanceLimits> requiredLimits;
+    instanceDescriptor.requiredLimits = requiredLimits.data();
+
+    wgpu::Instance instance = wgpu::CreateInstance(&instanceDescriptor);
 
     HK_ASSERT(instance, "Failed to create wgpu::Instance")
 
@@ -315,8 +334,24 @@ namespace hub33k {
     deviceDescriptor.nextInChain = nullptr;
     deviceDescriptor.label = "Default Device";
 
-    deviceDescriptor.requiredFeatures = nullptr;
-    deviceDescriptor.requiredLimits = nullptr; // Default limits are minimal limits
+    // Required features
+    std::vector<wgpu::FeatureName> requiredFeatures;
+    // requiredFeatures.push_back(wgpu::FeatureName::DawnNative);
+
+    // deviceDescriptor.requiredFeatures = nullptr;
+    deviceDescriptor.requiredFeatures = requiredFeatures.data();
+    deviceDescriptor.requiredFeatureCount = requiredFeatures.size();
+
+    // Required limits
+    // wgpu::Limits supportedLimits;
+    // adapter.GetLimits(&supportedLimits);
+
+    wgpu::Limits requiredLimits;
+    requiredLimits.maxVertexAttributes = 4;
+    requiredLimits.maxBindGroups = 2;
+
+    // deviceDescriptor.requiredLimits = nullptr; // Default limits are minimal limits
+    deviceDescriptor.requiredLimits = &requiredLimits;
 
     deviceDescriptor.SetDeviceLostCallback(
       wgpu::CallbackMode::AllowSpontaneous,
@@ -456,6 +491,7 @@ namespace hub33k {
 #if !HK_PLATFORM_IS(EMSCRIPTEN)
     // WebGPU::Info::DumpAdapterInfo(context.Adapter);
     // WebGPU::Info::DumpAdapter(context.Adapter);
+    WebGPU::Info::Test(context.Adapter, context.Device);
 #endif
   }
 
@@ -496,7 +532,9 @@ namespace hub33k {
     config.presentMode = vsync ? wgpu::PresentMode::Fifo : wgpu::PresentMode::Immediate;
 #endif
 
-    surface.Configure(&config);
+    if (width > 0 && height > 0) {
+      surface.Configure(&config);
+    }
 
     HK_LOG_INFO("[SurfaceConfiguration] Resized to {0}x{1}", width, height);
 
