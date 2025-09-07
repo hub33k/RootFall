@@ -16,6 +16,14 @@ namespace hub33k {
     void DrawQuad(const glm::vec3 &position, const glm::vec2 &size, const glm::vec4 &color);
 
   private:
+    struct Renderer2DData {
+      const uint32_t MaxQuads = 20000;
+      const uint32_t MaxVertices = MaxQuads * 4;
+      const uint32_t MaxIndices = MaxQuads * 6;
+      const uint32_t MaxTextureSlots = 32; // TODO: RenderCaps
+    };
+
+  private:
     // WebGPU
     wgpu::Instance m_Instance;
     wgpu::Adapter m_Adapter;
@@ -29,6 +37,8 @@ namespace hub33k {
     wgpu::RenderPassEncoder m_Pass;
     wgpu::CommandEncoder m_CommandEncoder;
     wgpu::RenderPipeline m_Pipeline;
+
+    Renderer2DData m_Data;
 
   private:
     void InitWebGPU(SDL_Window *window);

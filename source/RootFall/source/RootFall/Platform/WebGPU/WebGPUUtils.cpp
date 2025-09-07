@@ -253,9 +253,9 @@ namespace hub33k::WebGPU {
 
     if (width > 0 && height > 0) {
       surface.Configure(&config);
-    }
 
-    HK_LOG_INFO("[SurfaceConfiguration] Resized to {0}x{1}", width, height);
+      HK_LOG_INFO("[SurfaceConfiguration] Resized to {0}x{1}", width, height);
+    }
 
     return config;
   }

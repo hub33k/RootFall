@@ -81,7 +81,9 @@ namespace hub33k {
         m_WindowProps.Width = event.window.data1;
         m_WindowProps.Height = event.window.data2;
 
-        m_Renderer->ConfigureSurface(m_WindowProps.Width, m_WindowProps.Height);
+        if (m_WindowProps.Width > 0 && m_WindowProps.Height > 0) {
+          m_Renderer->ConfigureSurface(m_WindowProps.Width, m_WindowProps.Height);
+        }
       }
 
       if (event.type == SDL_EVENT_KEY_DOWN) {

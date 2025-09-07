@@ -84,7 +84,7 @@
   // https://github.com/matepek/vscode-catch2-test-adapter/issues/127
   "testMate.cpp.test.advancedExecutables": [
     {
-      "pattern": "build-debug/bin/SoftwareRenderer/SoftwareRenderer_testsd.exe",
+      "pattern": "build-debug/bin/tests/RootFall_tests.exe",
       "dependsOn": [
         // "build PrototypeCpp_tests",
         // "build-debug/bin/PrototypeCpp_tests.pdb"

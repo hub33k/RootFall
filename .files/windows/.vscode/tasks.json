@@ -7,7 +7,7 @@
       "type": "cmake",
       "command": "build",
       "group": "build",
-      "targets": ["SoftwareRenderer_tests"],
+      "targets": ["RootFall_tests"],
       "presentation": {
         // "reveal": "never", // "silent" or "never"
         // "focus": false,

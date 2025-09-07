@@ -11,15 +11,6 @@ namespace hub33k {
   static std::vector<std::string> enableToggles;
   static std::vector<std::string> disableToggles;
 
-  struct Renderer2DData {
-    static const uint32_t MaxQuads = 20000;
-    static const uint32_t MaxVertices = MaxQuads * 4;
-    static const uint32_t MaxIndices = MaxQuads * 6;
-    static const uint32_t MaxTextureSlots = 32; // TODO: RenderCaps
-  };
-
-  static Renderer2DData s_Data;
-
   wgpu::RenderPipeline CreateRenderPipeline(const wgpu::Device &device, const wgpu::TextureFormat &format) {
     std::string shaderSrc = ReadFile(SHADERS_DIR("shader.wgsl"));
 
@@ -58,15 +49,14 @@ namespace hub33k {
     Application &app = Application::Get();
 
     InitWebGPU(window);
-
-    // int w, h;
-    // SDL_GetWindowSize(app.GetWindow(), &w, &h);
     ConfigureSurface(app.GetWidth(), app.GetHeight());
 
     m_Pipeline = CreateRenderPipeline(m_Device, m_PreferredSurfaceTextureFormat);
   }
 
-  void Renderer::Shutdown() {}
+  void Renderer::Shutdown() {
+    ShutdownWebGPU();
+  }
 
   void Renderer::Display() {
 #if !HK_PLATFORM_IS(EMSCRIPTEN)
@@ -111,6 +101,8 @@ namespace hub33k {
     m_Queue.Submit(1, &commands);
   }
 
+  // ================================================================
+
   static bool isDrawing = false;
 
   void Renderer::DrawQuad(const glm::vec3 &position, const glm::vec2 &size, const glm::vec4 &color) {
@@ -150,7 +142,7 @@ namespace hub33k {
     togglesChain = &toggles;
 #endif
 
-    m_Instance = WebGPU::CreateInstance();
+    m_Instance = WebGPU::CreateInstance(togglesChain);
     m_Surface = WebGPU::CreateSurface(m_Instance, window);
     m_Adapter = WebGPU::CreateAdapter(m_Instance, m_Surface, togglesChain);
     m_Device = WebGPU::CreateDevice(m_Instance, m_Adapter);
@@ -168,5 +160,7 @@ namespace hub33k {
     // WebGPU::Info::Test(m_Adapter, m_Device);
 #endif
   }
+
+  void Renderer::ShutdownWebGPU() {}
 
 } // namespace hub33k
