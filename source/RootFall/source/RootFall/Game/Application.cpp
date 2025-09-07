@@ -1,7 +1,5 @@
 #include "Application.hpp"
 
-#include "RootFall/Renderer/Renderer.hpp"
-
 namespace hub33k {
 
   Application *Application::s_Instance = nullptr;
@@ -28,12 +26,13 @@ namespace hub33k {
     // Center window
     SDL_SetWindowPosition(m_Window, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
 
-    Renderer::Init();
+    m_Renderer = CreateRef<Renderer>();
+    m_Renderer->Init(m_Window);
   }
 
   Application::~Application() {
     // std::println("Shutting down...");
-    Renderer::Shutdown();
+    m_Renderer->Shutdown();
     SDL_DestroyWindow(m_Window);
     SDL_Quit();
   }
@@ -66,7 +65,7 @@ namespace hub33k {
       Update(Timestep(ts));
       Render(Timestep(ts));
 
-      Renderer::Display();
+      m_Renderer->Display();
     }
 #endif
   }
@@ -82,7 +81,7 @@ namespace hub33k {
         m_WindowProps.Width = event.window.data1;
         m_WindowProps.Height = event.window.data2;
 
-        Renderer::ConfigureSurface(m_WindowProps.Width, m_WindowProps.Height);
+        m_Renderer->ConfigureSurface(m_WindowProps.Width, m_WindowProps.Height);
       }
 
       if (event.type == SDL_EVENT_KEY_DOWN) {
@@ -104,11 +103,9 @@ namespace hub33k {
   void Application::Render(const Timestep ts) {
     (void)ts;
 
-    Renderer::BeginScene();
-
-    Renderer::DrawQuad({0.0f, 0.0f, 0.0f}, {1.0f, 1.0f}, {1.0f, 1.0f, 1.0f, 1.0f});
-
-    Renderer::EndScene();
+    m_Renderer->BeginScene();
+    m_Renderer->DrawQuad({0.0f, 0.0f, 0.0f}, {1.0f, 1.0f}, {1.0f, 0.0f, 0.0f, 1.0f});
+    m_Renderer->EndScene();
   }
 
   // ================================================================

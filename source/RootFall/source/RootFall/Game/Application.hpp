@@ -1,5 +1,6 @@
 #pragma once
 
+#include "RootFall/Renderer/Renderer.hpp"
 #include "RootFallCore/Core/Timestep.hpp"
 
 namespace hub33k {
@@ -34,6 +35,7 @@ namespace hub33k {
 
     bool IsRunning() const { return m_IsRunning; }
     SDL_Window *GetWindow() const { return m_Window; }
+    Ref<Renderer> GetRenderer() const { return m_Renderer; }
 
     // Window props
     const WindowProps &GetWindowProps() const { return m_WindowProps; }
@@ -48,6 +50,7 @@ namespace hub33k {
     bool m_IsRunning = true;
     SDL_Window *m_Window = nullptr;
     WindowProps m_WindowProps;
+    Ref<Renderer> m_Renderer;
   };
 
 } // namespace hub33k

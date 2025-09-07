@@ -1,9 +1,15 @@
 #include "Renderer.hpp"
 
 #include "RootFall/Game/Application.hpp"
+#include "RootFall/Platform/WebGPU/WebGPUUtils.hpp"
 #include "RootFall/Utils/Utils.hpp"
 
 namespace hub33k {
+
+  // Create the toggles descriptor if not using emscripten.
+  static wgpu::ChainedStruct *togglesChain = nullptr;
+  static std::vector<std::string> enableToggles;
+  static std::vector<std::string> disableToggles;
 
   struct Renderer2DData {
     static const uint32_t MaxQuads = 20000;
@@ -14,13 +20,7 @@ namespace hub33k {
 
   static Renderer2DData s_Data;
 
-  WebGPUContext Renderer::Context = {};
-
-  wgpu::RenderPassEncoder pass;
-  wgpu::CommandEncoder encoder;
-  wgpu::RenderPipeline pipeline;
-
-  void CreateRenderPipeline(const wgpu::Device &device, const wgpu::TextureFormat &format) {
+  wgpu::RenderPipeline CreateRenderPipeline(const wgpu::Device &device, const wgpu::TextureFormat &format) {
     std::string shaderSrc = ReadFile(SHADERS_DIR("shader.wgsl"));
 
     wgpu::ShaderSourceWGSL wgsl{{
@@ -50,48 +50,41 @@ namespace hub33k {
         },
       .fragment = &fragmentState,
     };
-    pipeline = device.CreateRenderPipeline(&descriptor);
+
+    return device.CreateRenderPipeline(&descriptor);
   }
 
-  void Renderer::Init() {
+  void Renderer::Init(SDL_Window *window) {
     Application &app = Application::Get();
 
-    InitWebGPU(app.GetWindow(), Context);
-
-    // std::cout << "Instance: " << m_WebGPUContext.Instance.Get() << '\n';
-    // std::cout << "Surface: " << m_WebGPUContext.Surface.Get() << '\n';
-    // std::cout << "Adapter: " << m_WebGPUContext.Adapter.Get() << '\n';
-    // std::cout << "Device: " << m_WebGPUContext.Device.Get() << '\n';
-    // std::cout << "Queue:: " << m_WebGPUContext.Queue.Get() << '\n';
+    InitWebGPU(window);
 
     // int w, h;
     // SDL_GetWindowSize(app.GetWindow(), &w, &h);
     ConfigureSurface(app.GetWidth(), app.GetHeight());
 
-    CreateRenderPipeline(Context.Device, Context.PreferredSurfaceTextureFormat);
+    m_Pipeline = CreateRenderPipeline(m_Device, m_PreferredSurfaceTextureFormat);
   }
 
-  void Renderer::Shutdown() {
-    DeinitWebGPU(Context);
-  }
+  void Renderer::Shutdown() {}
 
   void Renderer::Display() {
 #if !HK_PLATFORM_IS(EMSCRIPTEN)
-    Context.Device.Tick();
+    m_Device.Tick();
 #endif
-    Context.Surface.Present();
-    Context.Instance.ProcessEvents();
+    m_Surface.Present();
+    m_Instance.ProcessEvents();
   }
 
   void Renderer::ConfigureSurface(const int width, const int height, const bool vsync) {
-    Context.SurfaceConfiguration = CreateSurfaceConfiguration(
-      width, height, vsync, Context.Surface, Context.Adapter, Context.Device, Context.PreferredSurfaceTextureFormat
+    m_SurfaceConfiguration = WebGPU::CreateSurfaceConfiguration(
+      width, height, vsync, m_Surface, m_Adapter, m_Device, m_PreferredSurfaceTextureFormat
     );
   }
 
   void Renderer::BeginScene(const wgpu::Color &clearColor) {
     wgpu::SurfaceTexture surfaceTexture;
-    Context.Surface.GetCurrentTexture(&surfaceTexture);
+    m_Surface.GetCurrentTexture(&surfaceTexture);
 
     wgpu::RenderPassColorAttachment attachment{
       .view = surfaceTexture.texture.CreateView(),
@@ -105,17 +98,17 @@ namespace hub33k {
       .colorAttachments = &attachment,
     };
 
-    encoder = Context.Device.CreateCommandEncoder();
-    pass = encoder.BeginRenderPass(&renderpass);
+    m_CommandEncoder = m_Device.CreateCommandEncoder();
+    m_Pass = m_CommandEncoder.BeginRenderPass(&renderpass);
 
-    pass.SetPipeline(pipeline);
-    pass.Draw(3);
+    m_Pass.SetPipeline(m_Pipeline);
+    m_Pass.Draw(3);
   }
 
   void Renderer::EndScene() {
-    pass.End();
-    wgpu::CommandBuffer commands = encoder.Finish();
-    Context.Queue.Submit(1, &commands);
+    m_Pass.End();
+    wgpu::CommandBuffer commands = m_CommandEncoder.Finish();
+    m_Queue.Submit(1, &commands);
   }
 
   static bool isDrawing = false;
@@ -129,6 +122,51 @@ namespace hub33k {
       std::cout << "DrawQuad\n";
     }
     isDrawing = true;
+  }
+
+  // ================================================================
+
+  void Renderer::InitWebGPU(SDL_Window *window) {
+#if !HK_PLATFORM_IS(EMSCRIPTEN)
+    // Create the toggles descriptor if not using emscripten.
+    std::vector<const char *> enableToggleNames;
+    enableToggleNames.push_back("enable_immediate_error_handling");
+    std::vector<const char *> disabledToggleNames;
+    for (const std::string &toggle : enableToggles) {
+      enableToggleNames.push_back(toggle.c_str());
+      std::cout << "Enabled toggle: " << toggle << '\n';
+    }
+    for (const std::string &toggle : disableToggles) {
+      disabledToggleNames.push_back(toggle.c_str());
+      std::cout << "Disabled toggle: " << toggle << '\n';
+    }
+
+    wgpu::DawnTogglesDescriptor toggles = {};
+    toggles.enabledToggles = enableToggleNames.data();
+    toggles.enabledToggleCount = enableToggleNames.size();
+    toggles.disabledToggles = disabledToggleNames.data();
+    toggles.disabledToggleCount = disabledToggleNames.size();
+
+    togglesChain = &toggles;
+#endif
+
+    m_Instance = WebGPU::CreateInstance();
+    m_Surface = WebGPU::CreateSurface(m_Instance, window);
+    m_Adapter = WebGPU::CreateAdapter(m_Instance, m_Surface, togglesChain);
+    m_Device = WebGPU::CreateDevice(m_Instance, m_Adapter);
+    m_Queue = m_Device.GetQueue();
+
+    // std::cout << "Instance: " << m_Instance.Get() << '\n';
+    // std::cout << "Surface: " << m_Surface.Get() << '\n';
+    // std::cout << "Adapter: " << m_Adapter.Get() << '\n';
+    // std::cout << "Device: " << m_Device.Get() << '\n';
+    // std::cout << "Queue:: " << m_Queue.Get() << '\n';
+
+#if !HK_PLATFORM_IS(EMSCRIPTEN)
+    // WebGPU::Info::DumpAdapterInfo(m_Adapter);
+    // WebGPU::Info::DumpAdapter(m_Adapter);
+    // WebGPU::Info::Test(m_Adapter, m_Device);
+#endif
   }
 
 } // namespace hub33k
