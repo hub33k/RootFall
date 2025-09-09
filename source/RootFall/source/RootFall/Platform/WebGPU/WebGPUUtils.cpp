@@ -107,12 +107,14 @@ namespace hub33k::WebGPU {
     deviceDescriptor.requiredFeatureCount = requiredFeatures.size();
 
     // Required limits
-    // wgpu::Limits supportedLimits;
-    // adapter.GetLimits(&supportedLimits);
+    wgpu::Limits supportedLimits;
+    adapter.GetLimits(&supportedLimits);
 
     wgpu::Limits requiredLimits;
-    requiredLimits.maxVertexAttributes = 4;
-    requiredLimits.maxBindGroups = 2;
+
+    // requiredLimits = supportedLimits;
+    // requiredLimits.maxVertexAttributes = 4;
+    // requiredLimits.maxBindGroups = 2;
 
     // deviceDescriptor.requiredLimits = nullptr; // Default limits are minimal limits
     deviceDescriptor.requiredLimits = &requiredLimits;
