@@ -62,7 +62,11 @@ namespace hub33k {
 #if !HK_PLATFORM_IS(EMSCRIPTEN)
     m_Device.Tick();
 #endif
-    m_Surface.Present();
+    const wgpu::ConvertibleStatus isOk = m_Surface.Present();
+    if (!isOk) {
+      HK_LOG_ERROR("Failed to present surface");
+    }
+
     m_Instance.ProcessEvents();
   }
 
